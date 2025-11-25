@@ -11,7 +11,7 @@ const CONTACT = {
   phone: '+91 7838398475',
   email: 'minakshi.kiit@gmail.com',
   linkedin: 'https://www.linkedin.com/in/mkva/',
-  resume: '/Meenakshi_Resume.pdf'   // IMPORTANT: file must be inside /public
+  resume: '/Meenakshi_Resume_UPDATED.pdf'   // IMPORTANT: file must be inside /public
 };
 
 const TIMELINE = [
@@ -50,6 +50,31 @@ const PROJECTS = [
     summary: 'Branding, content for social media and conceptualised an AI-driven recipe app for step-by-step vegetarian recipes.',
     tags: ['Branding', 'Mobile', 'AI']
   }
+{
+  title: 'Warranty Excellence Monitor',
+  role: 'Business Analyst (ATCS)',
+  summary: 'Web-based dashboard for Mercedes-Benz warranty repairs across 29 markets and 13 languages. Included 6 core KPIs, interactive charts and multilingual support.',
+  duration: '2018 – 2021',
+  impact: 'Standardized KPI definitions and improved visibility of warranty repair performance. Reduced reporting time and enabled faster data-driven decisions.',
+  responsibilities: [
+    'Led stakeholder interviews across markets',
+    'Defined KPI formulas and core metrics',
+    'Created detailed user stories and acceptance criteria',
+    'Collaborated with engineering and data teams for dashboard functionality',
+    'Led UAT sessions for multiple releases'
+  ],
+  kpis: [
+    'Damages per Visit',
+    'Cost per Damage',
+    'Cost per Visit',
+    'Warranty Repair Count',
+    'Average Repair Time',
+    'Warranty Cost by Model'
+  ],
+  tags: ['Analytics', 'Dashboard', 'Requirements', 'Stakeholder Mgmt', 'KPI Design', 'Business Analysis'],
+  link: '/projects/warranty-excellence'
+}
+
 ];
 
 const SkillPill = ({ children }) => (
