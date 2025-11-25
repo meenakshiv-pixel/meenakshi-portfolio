@@ -7,8 +7,8 @@ import React from 'react'
 const CONTACT = {
   name: 'Meenakshi Verma',
   title: 'Product Owner → Product Manager',
-  location: 'Gurugram, India',
-  phone: '+91 7838398475',
+  location: 'Sydney, Australia',
+  phone: '+61 411021915',
   email: 'minakshi.kiit@gmail.com',
   linkedin: 'https://www.linkedin.com/in/mkva/',
   resume: '/Meenakshi_Resume_UPDATED.pdf'   // IMPORTANT: file must be inside /public
