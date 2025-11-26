@@ -1,3 +1,4 @@
+// pages/index.js
 import Head from 'next/head';
 
 const CONTACT = {
@@ -272,20 +273,35 @@ export default function Portfolio() {
           {/* TIMELINE */}
           <section className="mt-12">
             <h2 className="text-2xl font-bold">Career Timeline</h2>
+            <p className="mt-2 text-sm text-zinc-500">
+              A quick view of how my career evolved across analytics, product and fraud platforms.
+            </p>
 
-            <div className="mt-6 border-l border-zinc-200 dark:border-zinc-800 pl-6">
-              {TIMELINE.map((item) => (
-                <div key={item.date} className="mb-8 relative">
-                  <span className="absolute -left-3 top-1 w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs">
-                    •
-                  </span>
-                  <p className="text-sm text-zinc-500">{item.date}</p>
-                  <h4 className="font-semibold mt-1">{item.title}</h4>
-                  <p className="mt-1 text-zinc-700 dark:text-zinc-300">
-                    {item.details}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-6 relative">
+              {/* Vertical gradient line */}
+              <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500/70 via-purple-500/50 to-transparent" />
+
+              <div className="space-y-6">
+                {TIMELINE.map((item, idx) => (
+                  <div key={item.date} className="relative pl-12">
+                    {/* Node */}
+                    <div className="absolute left-1 top-3 w-6 h-6 rounded-full bg-white dark:bg-zinc-950 border-2 border-indigo-500 flex items-center justify-center text-[10px] font-semibold text-indigo-600 shadow-sm">
+                      {idx + 1}
+                    </div>
+
+                    {/* Card */}
+                    <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 p-4 shadow-sm">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">
+                        {item.date}
+                      </p>
+                      <h4 className="mt-1 font-semibold">{item.title}</h4>
+                      <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
+                        {item.details}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -293,13 +309,51 @@ export default function Portfolio() {
           <section className="mt-12 grid md:grid-cols-2 gap-8">
             <div>
               <h2 className="text-2xl font-bold">Skills</h2>
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <SkillPill>Product Roadmap</SkillPill>
-                <SkillPill>Agile & Scrum</SkillPill>
-                <SkillPill>User Research</SkillPill>
-                <SkillPill>Data & Analytics</SkillPill>
-                <SkillPill>UX/UI Collaboration</SkillPill>
-                <SkillPill>Wireframing</SkillPill>
+              <p className="mt-2 text-sm text-zinc-500">
+                A quick snapshot of my product, delivery and tools stack.
+              </p>
+
+              <div className="mt-4 space-y-5">
+                {/* Product Skills */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                    Product
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <SkillPill>Product Strategy</SkillPill>
+                    <SkillPill>Product Roadmap</SkillPill>
+                    <SkillPill>Product Portfolio Management</SkillPill>
+                    <SkillPill>Stakeholder Management</SkillPill>
+                  </div>
+                </div>
+
+                {/* Methods & Frameworks */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                    Methods & Frameworks
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <SkillPill>Agile & Scrum</SkillPill>
+                    <SkillPill>SAFe</SkillPill>
+                    <SkillPill>User Research</SkillPill>
+                    <SkillPill>Experimentation / A/B Testing</SkillPill>
+                    <SkillPill>Data-driven Decision Making</SkillPill>
+                  </div>
+                </div>
+
+                {/* Tools */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                    Tools & Platforms
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <SkillPill>JIRA</SkillPill>
+                    <SkillPill>MySQL</SkillPill>
+                    <SkillPill>Tableau</SkillPill>
+                    <SkillPill>Microsoft Office Suite</SkillPill>
+                    <SkillPill>Visio</SkillPill>
+                  </div>
+                </div>
               </div>
             </div>
 
