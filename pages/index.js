@@ -29,53 +29,66 @@ const PROJECTS = [
   {
     title: 'AMP Charge Verification Journey',
     role: 'Product Owner',
-    summary: 'Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.',
-    tags: ['Fraud', 'APIs', 'IVR', 'Product Strategy']
+    summary:
+      'Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.',
+    tags: ['Fraud', 'APIs', 'IVR', 'Product Strategy'],
   },
   {
     title: 'Global Transactional Survey Program',
     role: 'Owner – Email & Chat Surveys',
-    summary: 'Improved metadata quality across regions, enabling better reporting and actionable insights for experience improvements.',
-    tags: ['Surveys', 'Analytics', 'NPS']
+    summary:
+      'Improved metadata quality across regions, enabling better reporting and actionable insights for experience improvements.',
+    tags: ['Surveys', 'Analytics', 'NPS'],
   },
   {
     title: 'Digital Automation & UX Improvements — Ramboll',
     role: 'Assistant Product Specialist',
-    summary: 'Enhanced user engagement by 20% and automated processes saving 1200+ person-hours annually.',
-    tags: ['Automation', 'UX', 'A/B Testing']
+    summary:
+      'Enhanced user engagement by 20% and automated processes saving 1200+ person-hours annually.',
+    tags: ['Automation', 'UX', 'A/B Testing'],
   },
   {
     title: 'Entrepreneurial: Candle Business & Recipe App Concept',
     role: 'Founder / Product Lead',
-    summary: 'Branding, content for social media and conceptualised an AI-driven recipe app for step-by-step vegetarian recipes.',
-    tags: ['Branding', 'Mobile', 'AI']
-  }
-{
-  title: 'Warranty Excellence Monitor',
-  role: 'Business Analyst (ATCS)',
-  summary: 'Web-based dashboard for Mercedes-Benz warranty repairs across 29 markets and 13 languages. Included 6 core KPIs, interactive charts and multilingual support.',
-  duration: '2018 – 2021',
-  impact: 'Standardized KPI definitions and improved visibility of warranty repair performance. Reduced reporting time and enabled faster data-driven decisions.',
-  responsibilities: [
-    'Led stakeholder interviews across markets',
-    'Defined KPI formulas and core metrics',
-    'Created detailed user stories and acceptance criteria',
-    'Collaborated with engineering and data teams for dashboard functionality',
-    'Led UAT sessions for multiple releases'
-  ],
-  kpis: [
-    'Damages per Visit',
-    'Cost per Damage',
-    'Cost per Visit',
-    'Warranty Repair Count',
-    'Average Repair Time',
-    'Warranty Cost by Model'
-  ],
-  tags: ['Analytics', 'Dashboard', 'Requirements', 'Stakeholder Mgmt', 'KPI Design', 'Business Analysis'],
-  link: '/projects/warranty-excellence'
-}
-
+    summary:
+      'Branding, content for social media and conceptualised an AI-driven recipe app for step-by-step vegetarian recipes.',
+    tags: ['Branding', 'Mobile', 'AI'],
+  },
+  {
+    title: 'Warranty Excellence Monitor',
+    role: 'Business Analyst (ATCS)',
+    summary:
+      'Web-based dashboard for Mercedes-Benz warranty repairs across 29 markets and 13 languages. Included 6 core KPIs, interactive charts and multilingual support.',
+    duration: '2018 – 2021',
+    impact:
+      'Standardized KPI definitions and improved visibility of warranty repair performance. Reduced reporting time and enabled faster data-driven decisions.',
+    responsibilities: [
+      'Led stakeholder interviews across markets',
+      'Defined KPI formulas and core metrics',
+      'Created detailed user stories and acceptance criteria',
+      'Collaborated with engineering and data teams for dashboard functionality',
+      'Led UAT sessions for multiple releases',
+    ],
+    kpis: [
+      'Damages per Visit',
+      'Cost per Damage',
+      'Cost per Visit',
+      'Warranty Repair Count',
+      'Average Repair Time',
+      'Warranty Cost by Model',
+    ],
+    tags: [
+      'Analytics',
+      'Dashboard',
+      'Requirements',
+      'Stakeholder Mgmt',
+      'KPI Design',
+      'Business Analysis',
+    ],
+    link: '/projects/warranty-excellence',
+  },
 ];
+
 
 const SkillPill = ({ children }) => (
   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border border-gray-200 dark:border-zinc-700 bg-white/60">
@@ -110,14 +123,15 @@ export default function Portfolio() {
 
             <div className="relative flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
               
-              {/* Profile image or fallback initials */}
-              <div className="flex-shrink-0 relative">
-                <img
-                  src="/profile.jpg"
-                  alt="Profile Photo"
-                  className="w-36 h-36 rounded-full object-cover shadow-lg border-4 border-white dark:border-zinc-900"
-                  onError={(e)=>{e.currentTarget.style.display='none'}}
-                />
+              {/* Profile image */}
+<div className="flex-shrink-0">
+  <img
+    src="/profile.jpg"
+    alt="Profile Photo"
+    className="w-36 h-36 rounded-full object-cover shadow-lg border-4 border-white dark:border-zinc-900"
+  />
+</div>
+
 
                 <div
                   className="w-36 h-36 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-3xl font-extrabold text-white shadow-lg absolute top-0 left-0"
