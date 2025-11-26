@@ -68,64 +68,24 @@ const PROJECTS = [
     title: 'AMP Charge Verification Journey',
     role: 'Product Owner',
     summary:
-      'Product Owner for the Authorizations Modernization Program (AMP). Led uplift of high-risk fraud and credit journeys in the IVR channel across US and International markets, improving decisioning speed, IVR containment and customer experience.',
+      'Product Owner for the Authorizations Modernization Program (AMP). Led uplift of high-risk fraud and credit journeys in the IVR channel across US & International markets, improving decisioning speed, IVR containment and customer experience.',
     tags: ['Fraud & Credit', 'IVR Servicing', 'Global Rollout', 'Modernization'],
     link: '/projects/amp-charge-verification',
-  },
-
-  {
-    title: 'Global Transactional Survey Program',
-    role: 'Owner – Email & Chat Surveys',
-    summary:
-      'Improved metadata quality across regions, enabling better reporting and actionable insights for experience improvements.',
-    tags: ['Surveys', 'Analytics', 'NPS'],
-  },
-  {
-    title: 'Digital Automation & UX Improvements — Ramboll',
-    role: 'Assistant Product Specialist',
-    summary:
-      'Enhanced user engagement by 20% and automated processes saving 1200+ person-hours annually.',
-    tags: ['Automation', 'UX', 'A/B Testing'],
-  },
-  {
-    title: 'Entrepreneurial: Candle Business & Recipe App Concept',
-    role: 'Founder / Product Lead',
-    summary:
-      'Branding, content for social media and conceptualised an AI-driven recipe app for step-by-step vegetarian recipes.',
-    tags: ['Branding', 'Mobile', 'AI'],
   },
   {
     title: 'Warranty Excellence Monitor',
     role: 'Business Analyst (ATCS)',
     summary:
-      'Web-based dashboard for Mercedes-Benz warranty repairs across 29 markets and 13 languages. Included 6 core KPIs, interactive charts and multilingual support.',
-    duration: '2018 – 2021',
-    impact:
-      'Standardized KPI definitions and improved visibility of warranty repair performance. Reduced reporting time and enabled faster data-driven decisions.',
-    responsibilities: [
-      'Led stakeholder interviews across markets',
-      'Defined KPI formulas and core metrics',
-      'Created detailed user stories and acceptance criteria',
-      'Collaborated with engineering and data teams for dashboard functionality',
-      'Led UAT sessions for multiple releases',
-    ],
-    kpis: [
-      'Damages per Visit',
-      'Cost per Damage',
-      'Cost per Visit',
-      'Warranty Repair Count',
-      'Average Repair Time',
-      'Warranty Cost by Model',
-    ],
-    tags: [
-      'Analytics',
-      'Dashboard',
-      'Requirements',
-      'Stakeholder Mgmt',
-      'KPI Design',
-      'Business Analysis',
-    ],
+      'Web-based dashboard for Mercedes-Benz warranty repairs across 29 markets and 13 languages. Provided KPIs and charts for damages per visit, cost per damage, cost per visit and other warranty metrics, giving leadership a single source of truth.',
+    tags: ['Analytics', 'Dashboard', 'Mercedes-Benz', 'Warranty'],
     link: '/projects/warranty-excellence',
+  },
+  {
+    title: 'Digital Automation & UX Improvements — Ramboll',
+    role: 'Assistant Product Specialist',
+    summary:
+      'Enhanced user engagement by 20% and automated processes saving 1200+ person-hours annually across digital tools.',
+    tags: ['Automation', 'UX', 'Change Management'],
   },
 ];
 
@@ -268,16 +228,14 @@ export default function Portfolio() {
                     ))}
                   </div>
 
-
-{p.link && (
-  <a
-    href={p.link}
-    className="mt-4 inline-flex text-sm font-medium text-indigo-600 hover:text-indigo-700"
-  >
-    View case study →
-  </a>
-)}
-
+                  {p.link && (
+                    <a
+                      href={p.link}
+                      className="mt-4 inline-flex text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                    >
+                      View case study →
+                    </a>
+                  )}
                 </article>
               ))}
             </div>
@@ -318,68 +276,67 @@ export default function Portfolio() {
             </div>
           </section>
 
-          {/* SKILLS + EDUCATION */}
-          <section className="mt-12 grid md:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold">Skills</h2>
-              <p className="mt-2 text-sm text-zinc-500">
-                A quick snapshot of my product, delivery and tools stack.
-              </p>
+          {/* SKILLS – FULL WIDTH */}
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold">Skills</h2>
+            <p className="mt-2 text-sm text-zinc-500">
+              A snapshot of my product, delivery and tools stack.
+            </p>
 
-              <div className="mt-4 space-y-5">
-                {/* Product Skills */}
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                    Product
-                  </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <SkillPill>Product Strategy</SkillPill>
-                    <SkillPill>Product Roadmap</SkillPill>
-                    <SkillPill>Product Portfolio Management</SkillPill>
-                    <SkillPill>Stakeholder Management</SkillPill>
-                  </div>
+            <div className="mt-4 space-y-6">
+              {/* Product Skills */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  Product
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <SkillPill>Product Strategy</SkillPill>
+                  <SkillPill>Product Roadmap</SkillPill>
+                  <SkillPill>Product Portfolio Management</SkillPill>
+                  <SkillPill>Stakeholder Management</SkillPill>
                 </div>
+              </div>
 
-                {/* Methods & Frameworks */}
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                    Methods & Frameworks
-                  </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <SkillPill>Agile & Scrum</SkillPill>
-                    <SkillPill>SAFe</SkillPill>
-                    <SkillPill>User Research</SkillPill>
-                    <SkillPill>Experimentation / A/B Testing</SkillPill>
-                    <SkillPill>Data-driven Decision Making</SkillPill>
-                  </div>
+              {/* Methods & Frameworks */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  Methods &amp; Frameworks
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <SkillPill>Agile &amp; Scrum</SkillPill>
+                  <SkillPill>SAFe</SkillPill>
+                  <SkillPill>User Research</SkillPill>
+                  <SkillPill>Experimentation / A/B Testing</SkillPill>
+                  <SkillPill>Data-driven Decision Making</SkillPill>
                 </div>
+              </div>
 
-                {/* Tools */}
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                    Tools & Platforms
-                  </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <SkillPill>JIRA</SkillPill>
-                    <SkillPill>MySQL</SkillPill>
-                    <SkillPill>Tableau</SkillPill>
-                    <SkillPill>Microsoft Office Suite</SkillPill>
-                    <SkillPill>Visio</SkillPill>
-                  </div>
+              {/* Tools */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  Tools &amp; Platforms
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <SkillPill>JIRA</SkillPill>
+                  <SkillPill>MySQL</SkillPill>
+                  <SkillPill>Tableau</SkillPill>
+                  <SkillPill>Microsoft Office Suite</SkillPill>
+                  <SkillPill>Visio</SkillPill>
                 </div>
               </div>
             </div>
+          </section>
 
-            <div>
-              <h2 className="text-2xl font-bold">Education & Certifications</h2>
-              <ul className="mt-4 list-disc list-inside text-zinc-700 dark:text-zinc-300">
-                <li>M.Tech — IIT Roorkee (Alternate Hydro Energy Systems)</li>
-                <li>B.Tech — KIIT Bhubaneswar (Civil Engineering)</li>
-                <li>Safe® Product Owner/Product Manager (POPM)</li>
-                <li>Certified Scrum Master (CSM)</li>
-                <li>Harvard Leadership Edge</li>
-              </ul>
-            </div>
+          {/* EDUCATION – SEPARATE SECTION */}
+          <section className="mt-10">
+            <h2 className="text-2xl font-bold">Education & Certifications</h2>
+            <ul className="mt-4 list-disc list-inside text-zinc-700 dark:text-zinc-300">
+              <li>M.Tech — IIT Roorkee (Alternate Hydro Energy Systems)</li>
+              <li>B.Tech — KIIT Bhubaneswar (Civil Engineering)</li>
+              <li>Safe® Product Owner/Product Manager (POPM)</li>
+              <li>Certified Scrum Master (CSM)</li>
+              <li>Harvard Leadership Edge</li>
+            </ul>
           </section>
 
           {/* FOOTER */}
