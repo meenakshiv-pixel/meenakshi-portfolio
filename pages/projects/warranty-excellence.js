@@ -6,7 +6,8 @@ export default function WarrantyExcellence() {
     <>
       <Head>
         <title>Warranty Excellence Monitor — Case Study | Meenakshi Verma</title>
-        <meta name="description" content="Case study: Warranty Excellence Monitor, a multi-market Mercedes-Benz dashboard with KPIs and charts." />
+        <meta name="description" 
+content="Case study: Warranty Excellence Monitor, a multi-market Mercedes-Benz dashboard with KPIs and charts." />
       </Head>
 
       <main className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50">
