@@ -68,9 +68,11 @@ const PROJECTS = [
     title: 'AMP Charge Verification Journey',
     role: 'Product Owner',
     summary:
-      'Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.',
-    tags: ['Fraud', 'APIs', 'IVR', 'Product Strategy'],
+      'Product Owner for the Authorizations Modernization Program (AMP). Led uplift of high-risk fraud and credit journeys in the IVR channel across US and International markets, improving decisioning speed, IVR containment and customer experience.',
+    tags: ['Fraud & Credit', 'IVR Servicing', 'Global Rollout', 'Modernization'],
+    link: '/projects/amp-charge-verification',
   },
+
   {
     title: 'Global Transactional Survey Program',
     role: 'Owner – Email & Chat Surveys',
@@ -265,6 +267,17 @@ export default function Portfolio() {
                       </span>
                     ))}
                   </div>
+
+
+{p.link && (
+  <a
+    href={p.link}
+    className="mt-4 inline-flex text-sm font-medium text-indigo-600 hover:text-indigo-700"
+  >
+    View case study →
+  </a>
+)}
+
                 </article>
               ))}
             </div>
