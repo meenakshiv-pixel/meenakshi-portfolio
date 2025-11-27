@@ -12,15 +12,12 @@ const CONTACT = {
   resume: '/Meenakshi_Resume_UPDATED.pdf'
 };
 
-/**
- * TIMELINE (descending order for rendering so 2025 appears at the top)
- * Option B: combine AMEX 2022-2025 as a single card.
- */
+// TIMELINE: one role per company (Option B style - AMEX combined)
 const TIMELINE = [
   {
     date: '2025',
     company: 'Transition to Australia / Portfolio Building',
-    role: 'Product Manager (aspiring)',
+    role: 'Aspiring Product Manager / Portfolio Builder',
     summary:
       'Preparing for Product Manager roles in Australia — building public portfolio, case studies and strengthening data & product skills.',
     skills: ['Product Strategy', 'Portfolio Building', 'MySQL', 'Data Analysis'],
@@ -28,10 +25,10 @@ const TIMELINE = [
 
   {
     date: '2022 – 2025',
-    company: 'American Express (2022 → 2025)',
+    company: 'American Express',
     role: 'Sr. Associate Product Management / Product Owner',
     summary:
-      'Led Credit Authorization Systems uplift, led AMP Charge Verification (IVR & fraud), owned product roadmap and cross-functional delivery across multiple programs and markets.',
+      'Led Credit Authorization Systems uplift; owned AMP (Charge Verification) work for IVR & fraud; managed roadmaps, API uplifts and cross-functional delivery across regions.',
     skills: ['Product Roadmap', 'APIs', 'IVR', 'Fraud', 'Stakeholder Mgmt', 'JIRA'],
   },
 
@@ -40,7 +37,7 @@ const TIMELINE = [
     company: 'Ramboll',
     role: 'Assistant Product Specialist',
     summary:
-      'Delivered digital automation and UX improvements, increasing adoption and saving ~1200 manual hours through process automation.',
+      'Delivered digital automation and UX improvements that increased adoption and removed manual work — saving significant person-hours annually.',
     skills: ['Automation', 'UX Improvements', 'Process Optimization'],
   },
 
@@ -49,23 +46,11 @@ const TIMELINE = [
     company: 'ATCS Inc (Mercedes-Benz)',
     role: 'Business Analyst → Senior Business Analyst',
     summary:
-      'Led requirements & KPI design for the Warranty Excellence Monitor (multi-market warranty dashboard). Owned stakeholder interviews, user stories and UAT across markets.',
+      'Led requirements & KPI design for the Warranty Excellence Monitor (multi-market warranty dashboard). Managed stakeholder interviews, user stories and UAT across multiple markets.',
     skills: ['Requirements Gathering', 'KPI Design', 'Dashboard', 'Stakeholder Mgmt', 'SQL'],
-  },
-
-  {
-    date: 'Jul 2018',
-    company: 'ATCS Inc (start)',
-    role: 'Business Analyst (onboarding)',
-    summary:
-      'Joined ATCS and began discovery for warranty analytics & reporting projects for Mercedes-Benz markets.',
-    skills: ['Discovery', 'Stakeholder Interviews', 'Data Analysis'],
-  },
+  }
 ];
 
-/**
- * PROJECTS — removed Entrepreneurial & Global Transactional Survey Program per your request.
- */
 const PROJECTS = [
   {
     title: 'AMP Charge Verification Journey',
@@ -171,26 +156,26 @@ export default function Portfolio() {
             </div>
           </section>
 
-          {/* CAREER TIMELINE — top (2025) to bottom (2018) */}
+          {/* CAREER TIMELINE */}
           <section className="mt-12">
             <h2 className="text-2xl font-bold">Work Experience</h2>
-            <p className="mt-2 text-sm text-zinc-500">Recent roles at top, older roles below. Click the cards for quick reading.</p>
+            <p className="mt-2 text-sm text-zinc-500">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
 
             <div className="relative mt-10">
-              {/* vertical line center */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-px bg-zinc-200 dark:bg-zinc-800" />
+              {/* center vertical line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 top-6 bottom-0 w-px bg-zinc-200 dark:bg-zinc-800" />
 
               <div className="space-y-12">
                 {TIMELINE.map((item, idx) => {
-                  const isRight = idx % 2 === 0; // alternate: top item (idx=0) place right, next left, etc. (you can flip)
+                  const isRight = idx % 2 === 0; // alternate placement
                   return (
-                    <div key={item.date} className="relative">
-                      <div className="md:grid md:grid-cols-2 md:items-center">
-                        {/* Left column */}
-                        <div className={`md:col-span-1 ${isRight ? 'md:order-1 md:pr-8' : 'md:order-2 md:pr-8'}`}>
-                          <div className={`hidden md:block ${isRight ? '' : 'text-right'}`}>
-                            <div className="inline-block max-w-md">
-                              <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 p-5 shadow-lg">
+                    <div key={item.company} className="relative">
+                      <div className="md:grid md:grid-cols-3 md:items-start gap-4">
+                        {/* left side (when isRight=false this will show card on left) */}
+                        <div className={`md:col-span-1 ${isRight ? 'md:order-1 md:pr-6' : 'md:order-3 md:pr-6'}`}>
+                          <div className={`hidden md:block ${isRight ? 'text-right' : ''}`}>
+                            <div className="inline-block">
+                              <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/80 p-5 shadow-lg max-w-md">
                                 <div className="flex items-baseline justify-between">
                                   <h4 className="font-semibold text-lg">{item.role}</h4>
                                   <span className="text-xs text-zinc-500">{item.date}</span>
@@ -206,16 +191,26 @@ export default function Portfolio() {
                           </div>
                         </div>
 
-                        {/* center dot */}
-                        <div className="md:col-span-0 flex justify-center">
-                          <div className="w-6 h-6 rounded-full bg-indigo-600 border-2 border-white dark:border-zinc-900 shadow z-10" />
+                        {/* center column - year badge + dot */}
+                        <div className="md:col-span-1 flex flex-col items-center">
+                          <div className="relative flex flex-col items-center">
+                            {/* year badge */}
+                            <div className="z-20 mb-2">
+                              <span className="inline-block text-xs font-medium px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{item.date}</span>
+                            </div>
+
+                            {/* dot (fixed small clean style) */}
+                            <div className="z-20">
+                              <div className="w-4 h-4 rounded-full bg-white dark:bg-zinc-900 border-2 border-indigo-600 dark:border-indigo-500 shadow-sm" />
+                            </div>
+                          </div>
                         </div>
 
-                        {/* Right column */}
-                        <div className={`md:col-span-1 ${isRight ? 'md:order-2 md:pl-8' : 'md:order-1 md:pl-8'}`}>
-                          <div className={`hidden md:block ${isRight ? 'text-left' : ''}`}>
-                            <div className="inline-block max-w-md">
-                              <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 p-5 shadow-lg">
+                        {/* right side (when isRight=true this will show card on right) */}
+                        <div className={`md:col-span-1 ${isRight ? 'md:order-3 md:pl-6' : 'md:order-1 md:pl-6'}`}>
+                          <div className={`hidden md:block ${isRight ? '' : ''}`}>
+                            <div className="inline-block">
+                              <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/80 p-5 shadow-lg max-w-md">
                                 <div className="flex items-baseline justify-between">
                                   <h4 className="font-semibold text-lg">{item.role}</h4>
                                   <span className="text-xs text-zinc-500">{item.date}</span>
@@ -231,7 +226,7 @@ export default function Portfolio() {
                           </div>
                         </div>
 
-                        {/* Mobile stacked card (always visible on md:hidden) */}
+                        {/* mobile stacked card - shown under center column */}
                         <div className="md:hidden mt-6">
                           <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/80 p-4 shadow-sm">
                             <div className="flex items-baseline justify-between">
@@ -246,6 +241,7 @@ export default function Portfolio() {
                             </div>
                           </div>
                         </div>
+
                       </div>
                     </div>
                   );
