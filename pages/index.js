@@ -1,6 +1,6 @@
 // pages/index.js
-import Head from 'next/head';
-import React from 'react';
+import Head from 'next/head'
+import React from 'react'
 
 const CONTACT = {
   name: 'Meenakshi Verma',
@@ -10,9 +10,8 @@ const CONTACT = {
   email: 'minakshi.kiit@gmail.com',
   linkedin: 'https://www.linkedin.com/in/mkva/',
   resume: '/Meenakshi_Resume_UPDATED.pdf'
-};
+}
 
-// TIMELINE: one role per company (Option B style - AMEX combined)
 const TIMELINE = [
   {
     date: '2025',
@@ -20,36 +19,33 @@ const TIMELINE = [
     role: 'Aspiring Product Manager / Portfolio Builder',
     summary:
       'Preparing for Product Manager roles in Australia — building public portfolio, case studies and strengthening data & product skills.',
-    skills: ['Product Strategy', 'Portfolio Building', 'MySQL', 'Data Analysis'],
+    skills: ['Product Strategy', 'Portfolio Building', 'MySQL', 'Data Analysis']
   },
-
   {
     date: '2022 – 2025',
     company: 'American Express',
     role: 'Sr. Associate Product Management / Product Owner',
     summary:
-      'Led Credit Authorization Systems uplift; owned AMP (Charge Verification) work for IVR & fraud; managed roadmaps, API uplifts and cross-functional delivery across regions.',
-    skills: ['Product Roadmap', 'APIs', 'IVR', 'Fraud', 'Stakeholder Mgmt', 'JIRA'],
+      'Led Credit Authorization uplift; owned AMP (Charge Verification) work for IVR & fraud; managed roadmaps, API uplifts and cross-functional delivery.',
+    skills: ['Product Roadmap', 'APIs', 'IVR', 'Fraud', 'Stakeholder Mgmt', 'JIRA']
   },
-
   {
     date: 'May 2021 – Jul 2022',
     company: 'Ramboll',
     role: 'Assistant Product Specialist',
     summary:
-      'Delivered digital automation and UX improvements that increased adoption and removed manual work — saving significant person-hours annually.',
-    skills: ['Automation', 'UX Improvements', 'Process Optimization'],
+      'Delivered digital automation and UX improvements that increased adoption and removed manual work.',
+    skills: ['Automation', 'UX Improvements', 'Process Optimization']
   },
-
   {
     date: '2018 – 2020',
     company: 'ATCS Inc (Mercedes-Benz)',
     role: 'Business Analyst → Senior Business Analyst',
     summary:
-      'Led requirements & KPI design for the Warranty Excellence Monitor (multi-market warranty dashboard). Managed stakeholder interviews, user stories and UAT across multiple markets.',
-    skills: ['Requirements Gathering', 'KPI Design', 'Dashboard', 'Stakeholder Mgmt', 'SQL'],
+      'Led requirements & KPI design for the Warranty Excellence Monitor (multi-market warranty dashboard). Managed stakeholder interviews, user stories and UAT.',
+    skills: ['Requirements Gathering', 'KPI Design', 'Dashboard', 'Stakeholder Mgmt', 'SQL']
   }
-];
+]
 
 const PROJECTS = [
   {
@@ -64,7 +60,7 @@ const PROJECTS = [
     title: 'Warranty Excellence Monitor',
     role: 'Business Analyst (ATCS)',
     summary:
-      'Web-based dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages. Included 6 core KPIs, drill-down charts and multilingual support to drive faster decisions.',
+      'Web-based dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages. Included 6 core KPIs, drill-down charts and multilingual support.',
     tags: ['Analytics', 'Dashboard', 'KPI Design'],
     link: '/projects/warranty-excellence'
   },
@@ -75,13 +71,13 @@ const PROJECTS = [
       'Automation and UX improvements which improved tool usage and reduced manual workload.',
     tags: ['Automation', 'UX', 'Process']
   }
-];
+]
 
 const SkillPill = ({ children }) => (
   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border border-gray-200 dark:border-zinc-700 bg-white/60">
     {children}
   </span>
-);
+)
 
 export default function Portfolio() {
   return (
@@ -162,89 +158,94 @@ export default function Portfolio() {
             <p className="mt-2 text-sm text-zinc-500">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
 
             <div className="relative mt-10">
-              {/* center vertical line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 top-6 bottom-0 w-px bg-zinc-200 dark:bg-zinc-800" />
+              {/* single vertical center line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 top-6 bottom-6 w-[2px] bg-zinc-200 dark:bg-zinc-800" />
 
-              <div className="space-y-12">
+              <div className="space-y-16">
                 {TIMELINE.map((item, idx) => {
-                  const isRight = idx % 2 === 0; // alternate placement
+                  const isRight = idx % 2 === 0 // alternate: even -> right, odd -> left
                   return (
                     <div key={item.company} className="relative">
-                      <div className="md:grid md:grid-cols-3 md:items-start gap-4">
-                        {/* left side (when isRight=false this will show card on left) */}
-                        <div className={`md:col-span-1 ${isRight ? 'md:order-1 md:pr-6' : 'md:order-3 md:pr-6'}`}>
-                          <div className={`hidden md:block ${isRight ? 'text-right' : ''}`}>
-                            <div className="inline-block">
-                              <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/80 p-5 shadow-lg max-w-md">
-                                <div className="flex items-baseline justify-between">
+                      {/* Row for desktop: empty space / center / card placement */}
+                      <div className="hidden md:flex items-start justify-between">
+                        {/* left column (when isRight is false show card on left) */}
+                        <div className="w-1/3 flex justify-end pr-8">
+                          {!isRight && (
+                            <div className="max-w-md bg-white/90 dark:bg-zinc-900/80 rounded-2xl p-5 shadow-lg border border-zinc-100 dark:border-zinc-800">
+                              <div className="flex items-start justify-between">
+                                <div>
                                   <h4 className="font-semibold text-lg">{item.role}</h4>
-                                  <span className="text-xs text-zinc-500">{item.date}</span>
+                                  <p className="mt-1 text-sm text-zinc-500"><strong>{item.company}</strong></p>
                                 </div>
-                                <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300"><strong>{item.company}</strong> — {item.summary}</p>
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {item.skills.map((s) => (
-                                    <span key={s} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{s}</span>
-                                  ))}
-                                </div>
+                                <div className="text-xs text-zinc-500">{item.date}</div>
+                              </div>
+                              <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">{item.summary}</p>
+                              <div className="mt-3 flex flex-wrap gap-2">
+                                {item.skills.map((s) => (
+                                  <span key={s} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{s}</span>
+                                ))}
                               </div>
                             </div>
+                          )}
+                        </div>
+
+                        {/* center column: year badge + dot */}
+                        <div className="w-1/6 flex flex-col items-center relative">
+                          <div className="mb-2">
+                            <span className="inline-block text-xs font-medium px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{item.date}</span>
+                          </div>
+                          <div>
+                            <div className="w-4 h-4 rounded-full bg-white dark:bg-zinc-900 border-2 border-indigo-600 dark:border-indigo-500 shadow-sm" />
                           </div>
                         </div>
 
-                        {/* center column - year badge + dot */}
-                        <div className="md:col-span-1 flex flex-col items-center">
-                          <div className="relative flex flex-col items-center">
-                            {/* year badge */}
-                            <div className="z-20 mb-2">
-                              <span className="inline-block text-xs font-medium px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{item.date}</span>
-                            </div>
-
-                            {/* dot (fixed small clean style) */}
-                            <div className="z-20">
-                              <div className="w-4 h-4 rounded-full bg-white dark:bg-zinc-900 border-2 border-indigo-600 dark:border-indigo-500 shadow-sm" />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* right side (when isRight=true this will show card on right) */}
-                        <div className={`md:col-span-1 ${isRight ? 'md:order-3 md:pl-6' : 'md:order-1 md:pl-6'}`}>
-                          <div className={`hidden md:block ${isRight ? '' : ''}`}>
-                            <div className="inline-block">
-                              <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/80 p-5 shadow-lg max-w-md">
-                                <div className="flex items-baseline justify-between">
+                        {/* right column (when isRight true show card on right) */}
+                        <div className="w-1/3 pl-8">
+                          {isRight && (
+                            <div className="max-w-md bg-white/90 dark:bg-zinc-900/80 rounded-2xl p-5 shadow-lg border border-zinc-100 dark:border-zinc-800">
+                              <div className="flex items-start justify-between">
+                                <div>
                                   <h4 className="font-semibold text-lg">{item.role}</h4>
-                                  <span className="text-xs text-zinc-500">{item.date}</span>
+                                  <p className="mt-1 text-sm text-zinc-500"><strong>{item.company}</strong></p>
                                 </div>
-                                <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300"><strong>{item.company}</strong> — {item.summary}</p>
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {item.skills.map((s) => (
-                                    <span key={s} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{s}</span>
-                                  ))}
-                                </div>
+                                <div className="text-xs text-zinc-500">{item.date}</div>
+                              </div>
+                              <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">{item.summary}</p>
+                              <div className="mt-3 flex flex-wrap gap-2">
+                                {item.skills.map((s) => (
+                                  <span key={s} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{s}</span>
+                                ))}
                               </div>
                             </div>
-                          </div>
+                          )}
                         </div>
-
-                        {/* mobile stacked card - shown under center column */}
-                        <div className="md:hidden mt-6">
-                          <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/80 p-4 shadow-sm">
-                            <div className="flex items-baseline justify-between">
-                              <h4 className="font-semibold">{item.role}</h4>
-                              <span className="text-xs text-zinc-500">{item.date}</span>
-                            </div>
-                            <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300"><strong>{item.company}</strong> — {item.summary}</p>
-                            <div className="mt-3 flex flex-wrap gap-2">
-                              {item.skills.map((s) => (
-                                <span key={s} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{s}</span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-
                       </div>
+
+                      {/* Mobile: single stacked card (centered under the dot) */}
+                      <div className="md:hidden mt-6 flex flex-col items-center">
+                        <div className="mb-2">
+                          <span className="inline-block text-xs font-medium px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{item.date}</span>
+                        </div>
+                        <div className="w-4 h-4 rounded-full bg-white dark:bg-zinc-900 border-2 border-indigo-600 dark:border-indigo-500 shadow-sm mb-3" />
+                        <div className="w-full bg-white/90 dark:bg-zinc-900/80 rounded-2xl p-4 shadow-sm border border-zinc-100 dark:border-zinc-800">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <h4 className="font-semibold">{item.role}</h4>
+                              <p className="mt-1 text-sm text-zinc-500"><strong>{item.company}</strong></p>
+                            </div>
+                            <div className="text-xs text-zinc-500">{item.date}</div>
+                          </div>
+                          <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">{item.summary}</p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {item.skills.map((s) => (
+                              <span key={s} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{s}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
-                  );
+                  )
                 })}
               </div>
             </div>
@@ -322,5 +323,5 @@ export default function Portfolio() {
         </div>
       </main>
     </>
-  );
+  )
 }
