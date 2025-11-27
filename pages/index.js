@@ -97,16 +97,13 @@ export default function Portfolio() {
           {/* HERO */}
           <header className="relative overflow-hidden rounded-3xl p-8 md:p-12 bg-gradient-to-br from-indigo-50 to-white dark:from-zinc-900 dark:to-zinc-950 shadow-md">
             <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(ellipse_at_top_left,var(--tw-gradient-stops))] from-indigo-300 via-purple-300 to-transparent" />
-
             <div className="relative flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
               <div className="flex-shrink-0">
                 <img src="/profile.jpg" alt="Profile Photo" className="w-36 h-36 rounded-full object-cover shadow-lg border-4 border-white dark:border-zinc-900" />
               </div>
-
               <div className="flex-1">
                 <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">{CONTACT.name}</h1>
                 <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-300">{CONTACT.title} • {CONTACT.location}</p>
-
                 <p className="mt-4 max-w-2xl leading-relaxed text-zinc-700 dark:text-zinc-300">
                   I build scalable products and frictionless customer experiences. I specialise in product strategy, cross-functional leadership and data-driven decisions that deliver measurable outcomes across global markets.
                 </p>
@@ -132,18 +129,15 @@ export default function Portfolio() {
             <h2 className="text-2xl font-bold">Selected Projects</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
               {PROJECTS.map((p) => (
-                <article key={p.title} className="p-6 bg-white/80 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200">
+                <article key={p.title} className="p-6 bg-white/80 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 max-w-[520px]">
                   <h3 className="text-lg font-semibold">{p.title}</h3>
                   <p className="mt-1 text-sm text-zinc-500"><strong>Role:</strong> {p.role}</p>
-
                   <p className="mt-4 text-zinc-700 dark:text-zinc-200">{p.summary}</p>
-
                   <div className="mt-4 flex flex-wrap gap-2">
                     {p.tags.map((t) => (
                       <span key={t} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{t}</span>
                     ))}
                   </div>
-
                   {p.link && (
                     <a href={p.link} className="mt-4 inline-flex text-sm font-medium text-indigo-600 hover:text-indigo-700">View case study →</a>
                   )}
@@ -158,22 +152,22 @@ export default function Portfolio() {
             <p className="mt-2 text-sm text-zinc-500">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
 
             <div className="relative mt-10">
-              {/* single vertical center line */}
+              {/* center vertical line (narrow) */}
               <div className="absolute left-1/2 transform -translate-x-1/2 top-6 bottom-6 w-[2px] bg-zinc-200 dark:bg-zinc-800" />
 
-              <div className="space-y-16">
+              <div className="space-y-10">
                 {TIMELINE.map((item, idx) => {
                   const isRight = idx % 2 === 0 // alternate: even -> right, odd -> left
                   return (
                     <div key={item.company} className="relative">
-                      {/* Row for desktop: empty space / center / card placement */}
-                      <div className="hidden md:flex items-start justify-between">
-                        {/* left column (when isRight is false show card on left) */}
-                        <div className="w-1/3 flex justify-end pr-8">
+                      {/* Desktop grid: left / center / right */}
+                      <div className="hidden md:grid grid-cols-[1fr_80px_1fr] items-start gap-4">
+                        {/* left */}
+                        <div className="flex justify-end">
                           {!isRight && (
-                            <div className="max-w-md bg-white/90 dark:bg-zinc-900/80 rounded-2xl p-5 shadow-lg border border-zinc-100 dark:border-zinc-800">
+                            <div className="max-w-[380px] w-full bg-white/90 dark:bg-zinc-900/80 rounded-2xl p-5 shadow-lg border border-zinc-100 dark:border-zinc-800">
                               <div className="flex items-start justify-between">
-                                <div>
+                                <div className="pr-2">
                                   <h4 className="font-semibold text-lg">{item.role}</h4>
                                   <p className="mt-1 text-sm text-zinc-500"><strong>{item.company}</strong></p>
                                 </div>
@@ -189,22 +183,22 @@ export default function Portfolio() {
                           )}
                         </div>
 
-                        {/* center column: year badge + dot */}
-                        <div className="w-1/6 flex flex-col items-center relative">
+                        {/* center */}
+                        <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            <span className="inline-block text-xs font-medium px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{item.date}</span>
+                            <span className="inline-block text-xs font-medium px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{item.date}</span>
                           </div>
                           <div>
                             <div className="w-4 h-4 rounded-full bg-white dark:bg-zinc-900 border-2 border-indigo-600 dark:border-indigo-500 shadow-sm" />
                           </div>
                         </div>
 
-                        {/* right column (when isRight true show card on right) */}
-                        <div className="w-1/3 pl-8">
+                        {/* right */}
+                        <div>
                           {isRight && (
-                            <div className="max-w-md bg-white/90 dark:bg-zinc-900/80 rounded-2xl p-5 shadow-lg border border-zinc-100 dark:border-zinc-800">
+                            <div className="max-w-[380px] w-full bg-white/90 dark:bg-zinc-900/80 rounded-2xl p-5 shadow-lg border border-zinc-100 dark:border-zinc-800">
                               <div className="flex items-start justify-between">
-                                <div>
+                                <div className="pr-2">
                                   <h4 className="font-semibold text-lg">{item.role}</h4>
                                   <p className="mt-1 text-sm text-zinc-500"><strong>{item.company}</strong></p>
                                 </div>
@@ -221,7 +215,7 @@ export default function Portfolio() {
                         </div>
                       </div>
 
-                      {/* Mobile: single stacked card (centered under the dot) */}
+                      {/* Mobile stacked card */}
                       <div className="md:hidden mt-6 flex flex-col items-center">
                         <div className="mb-2">
                           <span className="inline-block text-xs font-medium px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">{item.date}</span>
@@ -310,13 +304,11 @@ export default function Portfolio() {
                 <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">{CONTACT.name} — {CONTACT.title}</p>
                 <p className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">{CONTACT.location} • <a href={`tel:${CONTACT.phone}`} className="underline">{CONTACT.phone}</a> • <a href={`mailto:${CONTACT.email}`} className="underline">{CONTACT.email}</a></p>
               </div>
-
               <div className="flex items-center gap-4">
                 <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="text-sm border px-3 py-2 rounded">LinkedIn</a>
                 <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="text-sm border px-3 py-2 rounded">Resume (PDF)</a>
               </div>
             </div>
-
             <p className="mt-6 text-xs text-zinc-500">Built with ♥ — tailored for Product roles. © {new Date().getFullYear()} {CONTACT.name}</p>
           </footer>
 
