@@ -327,7 +327,7 @@ export default function Portfolio () {
             <div className="max-w-5xl mx-auto rounded-2xl p-6 md:p-10 bg-white/90 dark:bg-zinc-900/75 shadow">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                 <div className="flex-shrink-0">
-                  <img src="/profile.jpg" alt="Profile" className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover shadow-lg border-4 border-white dark:border-zinc-900" onError={(e)=>{e.currentTarget.style.display='none'}} />
+                  <img src="/profile_new.jpg" alt="Profile" className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover shadow-lg border-4 border-white dark:border-zinc-900" onError={(e)=>{e.currentTarget.style.display='none'}} />
                 </div>
                 <div className="flex-1">
                   <h1 className="text-2xl md:text-4xl font-extrabold">{CONTACT.name}</h1>
