@@ -153,57 +153,54 @@ export default function Portfolio() {
           </section>
 
           {/* Timeline / experience section — tighter spacing and single center line */}
-          <section id="work" className="mt-8">
-            <h2 className="text-2xl font-bold">Work Experience</h2>
-            <p className="text-sm text-zinc-500 mt-1">Most recent roles first (2025 → 2018).</p>
+         {/* TIMELINE FIXED ALIGNMENT */}
+<section id="work" className="mt-10">
+  <h2 className="text-2xl font-bold">Work Experience</h2>
+  <p className="text-sm text-zinc-500 mt-1">Most recent roles first (2025 → 2018).</p>
 
-            <div className="relative mt-8">
-              {/* center vertical line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-[2px] bg-zinc-200 opacity-60"></div>
+  <div className="relative mt-10">
+    {/* center vertical line */}
+    <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-[2px] bg-zinc-200"></div>
 
-              <div className="space-y-10">
-                {TIMELINE.map((t, idx) => {
-                  const isLeft = idx % 2 === 0
-                  return (
-                    <div key={t.year} className="relative">
-                      <div className={`md:flex md:items-start ${isLeft ? 'md:flex-row-reverse' : ''} gap-6`}>
-                        {/* card */}
-                        <div className={`md:w-1/2 ${isLeft ? 'md:ml-auto md:text-right' : ''}`}>
-                          <div className="p-6 bg-white rounded-xl shadow-sm">
-                            <div className="flex items-start justify-between">
-                              <div>
-                                <h3 className="font-semibold text-lg">{t.title}</h3>
-                                <p className="text-sm text-zinc-500 mt-1"><strong>{t.company}</strong></p>
-                              </div>
-                              <div className="text-sm text-zinc-400">{t.year}</div>
-                            </div>
+    <div className="space-y-20">
+      {TIMELINE.map((item, index) => {
+        const isLeft = index % 2 === 0;
 
-                            <p className="mt-3 text-zinc-700">{t.blurb}</p>
+        return (
+          <div key={item.year} className="relative flex flex-col items-center">
+            
+            {/* YEAR LABEL — perfectly centered */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 -top-8 text-sm font-medium text-zinc-500 bg-white px-3 py-1 rounded-full shadow-sm">
+              {item.year}
+            </div>
 
-                            <div className="mt-3 flex flex-wrap gap-2">
-                              {t.skills.map((s) => (
-                                <span key={s} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-sky-100 text-sky-800 shadow-sm">
-                                  {s}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
+            {/* timeline marker */}
+            <div className="w-6 h-6 rounded-full bg-white border-2 border-indigo-400 flex items-center justify-center z-20">
+              <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full"></div>
+            </div>
 
-                        {/* spacer that sits at center */}
-                        <div className="hidden md:block w-0 md:w-8"></div>
-                      </div>
+            {/* CARD CONTAINER */}
+            <div className={`mt-6 w-full md:w-1/2 ${isLeft ? 'md:pr-16 md:self-start text-left' : 'md:pl-16 md:self-end text-left'}`}>
+              <div className="p-6 bg-white rounded-xl shadow-sm border">
+                <h3 className="font-semibold text-lg leading-snug">{item.title}</h3>
+                <p className="text-sm text-zinc-500 mt-1 font-medium">{item.company}</p>
+                <p className="mt-3 text-zinc-700">{item.blurb}</p>
 
-                      {/* small center marker */}
-                      <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-8 h-8 rounded-full bg-white border-2 border-indigo-200 flex items-center justify-center z-10">
-                        <div className="w-3 h-3 rounded-full bg-indigo-500"></div>
-                      </div>
-                    </div>
-                  )
-                })}
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {item.skills.map((s) => (
+                    <span key={s} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-sky-100 text-sky-800 shadow-sm">
+                      {s}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </section>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
 
           {/* Skills & Education (skills use colored tiles as requested) */}
           <section id="skills" className="mt-10">
