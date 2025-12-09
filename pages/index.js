@@ -1,13 +1,6 @@
 // pages/index.js
 // Full single-file Next.js page for Meenakshi Verma portfolio
-// - stacked Skills / Education / Certifications
-// - projects: AMP, Warranty, Ramboll (no Ramboll case study link)
-// - top nav with section anchors (collapses to vertical on small screens)
-// - timeline fixed & aligned
-// - hero spacing tightened, removes hazy line
-// - profile image uses /profile.jpg (/profile.png fallback)
-// - skill tiles light blue, with icons and hover micro-animations
-// Note: uses Tailwind classes (assumes Tailwind is configured in the project)
+// Timeline stacking fix: vertical line sits behind cards; cards & markers are above.
 
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
@@ -30,7 +23,7 @@ const PROJECTS = [
     summary:
       "Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.",
     tags: ["Fraud", "APIs", "IVR", "Product Strategy"],
-    caseStudy: "/projects/amp-charge-verification", // keeps case study link
+    caseStudy: "/projects/amp-charge-verification",
   },
   {
     id: "warranty",
@@ -39,7 +32,7 @@ const PROJECTS = [
     summary:
       "Web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages with 6 core KPIs and drill-down charts.",
     tags: ["Analytics", "Dashboard", "KPI Design", "Stakeholder Mgmt"],
-    caseStudy: "/projects/warranty-excellence", // keeps case study link
+    caseStudy: "/projects/warranty-excellence",
   },
   {
     id: "ramboll",
@@ -48,7 +41,7 @@ const PROJECTS = [
     summary:
       "Delivered automation and UX improvements that increased adoption of digital tools and saved significant manual effort.",
     tags: ["Automation", "UX", "SQL"],
-    caseStudy: null, // no case study link (you asked to remove Ramboll case study)
+    caseStudy: null, // no case study link
   },
 ];
 
@@ -106,7 +99,6 @@ const SKILLS = [
 
 export default function Index() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  // small helper to smooth-scroll to sections
   useEffect(() => {
     const handler = (e) => {
       if (e.target.tagName === "A" && e.target.hash) {
@@ -155,24 +147,12 @@ export default function Index() {
 
               {/* Desktop menu */}
               <div className="hidden md:flex items-center gap-6">
-                <a href="#about" className="text-sm hover:underline px-2 py-1 rounded">
-                  About
-                </a>
-                <a href="#projects" className="text-sm hover:underline px-2 py-1 rounded">
-                  Projects
-                </a>
-                <a href="#experience" className="text-sm hover:underline px-2 py-1 rounded">
-                  Experience
-                </a>
-                <a href="#skills" className="text-sm hover:underline px-2 py-1 rounded">
-                  Skills
-                </a>
-                <a href="#education" className="text-sm hover:underline px-2 py-1 rounded">
-                  Education
-                </a>
-                <a href="#contact" className="text-sm hover:underline px-2 py-1 rounded">
-                  Contact
-                </a>
+                <a href="#about" className="text-sm hover:underline px-2 py-1 rounded">About</a>
+                <a href="#projects" className="text-sm hover:underline px-2 py-1 rounded">Projects</a>
+                <a href="#experience" className="text-sm hover:underline px-2 py-1 rounded">Experience</a>
+                <a href="#skills" className="text-sm hover:underline px-2 py-1 rounded">Skills</a>
+                <a href="#education" className="text-sm hover:underline px-2 py-1 rounded">Education</a>
+                <a href="#contact" className="text-sm hover:underline px-2 py-1 rounded">Contact</a>
               </div>
 
               {/* Mobile menu toggle */}
@@ -211,7 +191,6 @@ export default function Index() {
             <div className="rounded-xl bg-white shadow-lg p-8 md:p-12 -mt-6">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="flex-shrink-0">
-                  {/* profile image - prefer profile.jpg then profile.png fallback */}
                   <img
                     src="/profile.jpg"
                     alt="Profile"
@@ -225,9 +204,7 @@ export default function Index() {
 
                 <div className="flex-1">
                   <h1 className="text-3xl md:text-4xl font-extrabold">{CONTACT.name}</h1>
-                  <p className="mt-1 text-zinc-600">
-                    {CONTACT.title} • {CONTACT.location}
-                  </p>
+                  <p className="mt-1 text-zinc-600">{CONTACT.title} • {CONTACT.location}</p>
 
                   <p className="mt-4 max-w-3xl text-zinc-700">
                     I build scalable products and frictionless customer experiences — product strategy,
@@ -280,7 +257,6 @@ export default function Index() {
                 </div>
               </div>
             </div>
-            {/* small decorative angled divider */}
             <div className="mt-6 overflow-hidden" aria-hidden>
               <svg viewBox="0 0 1200 60" className="w-full h-14" preserveAspectRatio="none">
                 <path d="M0,20 C300,70 900,-20 1200,30 L1200,60 L0,60 Z" fill="#f1fbff" />
@@ -305,18 +281,13 @@ export default function Index() {
 
                     <div className="mt-4 flex flex-wrap gap-2">
                       {p.tags.map((t) => (
-                        <span key={t} className="text-xs bg-white/10 py-1 px-3 rounded-full">
-                          {t}
-                        </span>
+                        <span key={t} className="text-xs bg-white/10 py-1 px-3 rounded-full">{t}</span>
                       ))}
                     </div>
 
                     <div className="mt-4">
                       {p.caseStudy ? (
-                        <a
-                          href={p.caseStudy}
-                          className="inline-flex items-center text-sm text-sky-200 hover:underline"
-                        >
+                        <a href={p.caseStudy} className="inline-flex items-center text-sm text-sky-200 hover:underline">
                           View case study →
                         </a>
                       ) : (
@@ -329,29 +300,26 @@ export default function Index() {
             </div>
           </section>
 
-          {/* EXPERIENCE / TIMELINE */}
+          {/* EXPERIENCE / TIMELINE (FIXED stacking) */}
           <section id="experience" className="mt-12">
             <h2 className="text-2xl font-bold">Work Experience</h2>
             <p className="mt-1 text-zinc-600">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
 
             <div className="relative mt-8">
-              {/* vertical centre line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 h-full">
-                <div className="w-0.5 bg-zinc-200" style={{ height: "100%" }} />
+              {/* vertical centre line - behind content (z-0) */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 h-full z-0 pointer-events-none">
+                <div className="w-0.5 bg-zinc-200 h-full mx-auto" />
               </div>
 
               <div className="space-y-12">
-                {/* iterate timeline entries; show 2025 at top */}
                 {TIMELINE.map((t, idx) => {
-                  // alternate left/right layout for large screens; on small screens stack
                   const isLeft = idx % 2 === 0;
                   return (
-                    <div key={t.year} className="md:flex md:items-start md:justify-between">
+                    <div key={t.year} className="md:flex md:items-start md:justify-between relative">
                       {/* left side */}
                       <div className={`md:w-5/12 ${isLeft ? "md:order-1" : "md:order-2"}`}>
-                        {/* show only when left on md, otherwise blank to keep line centered */}
                         {isLeft ? (
-                          <article className="bg-white rounded-xl p-6 shadow-md">
+                          <article className="bg-white rounded-xl p-6 shadow-md relative z-10">
                             <div className="flex justify-between items-start">
                               <div>
                                 <h3 className="text-lg font-semibold">{t.title}</h3>
@@ -362,9 +330,7 @@ export default function Index() {
                             <p className="mt-4 text-zinc-700">{t.blurb}</p>
                             <div className="mt-4 flex flex-wrap gap-2">
                               {t.skills.map((s) => (
-                                <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">
-                                  {s}
-                                </span>
+                                <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">{s}</span>
                               ))}
                             </div>
                           </article>
@@ -373,10 +339,12 @@ export default function Index() {
                         )}
                       </div>
 
-                      {/* centre marker */}
-                      <div className="md:w-2/12 flex justify-center relative">
-                        <div className="w-6 h-6 rounded-full border-4 border-white bg-sky-50/80 flex items-center justify-center shadow">
-                          <div className="w-2 h-2 rounded-full bg-sky-500" />
+                      {/* centre marker (above line) */}
+                      <div className="md:w-2/12 flex justify-center relative z-20">
+                        <div className="absolute -left-3 md:left-0 -top-3">
+                          <div className="w-6 h-6 rounded-full border-4 border-white bg-sky-50/80 flex items-center justify-center shadow z-20">
+                            <div className="w-2 h-2 rounded-full bg-sky-500" />
+                          </div>
                         </div>
                       </div>
 
@@ -385,7 +353,7 @@ export default function Index() {
                         {isLeft ? (
                           <div className="hidden md:block" />
                         ) : (
-                          <article className="bg-white rounded-xl p-6 shadow-md">
+                          <article className="bg-white rounded-xl p-6 shadow-md relative z-10">
                             <div className="flex justify-between items-start">
                               <div>
                                 <h3 className="text-lg font-semibold">{t.title}</h3>
@@ -396,17 +364,15 @@ export default function Index() {
                             <p className="mt-4 text-zinc-700">{t.blurb}</p>
                             <div className="mt-4 flex flex-wrap gap-2">
                               {t.skills.map((s) => (
-                                <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">
-                                  {s}
-                                </span>
+                                <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">{s}</span>
                               ))}
                             </div>
                           </article>
                         )}
                       </div>
 
-                      {/* stacked fallback for small screens (show single card) */}
-                      <div className="md:hidden mt-4">
+                      {/* stacked fallback for small screens (cards above the line) */}
+                      <div className="md:hidden mt-4 relative z-10">
                         <article className="bg-white rounded-xl p-6 shadow-md">
                           <div className="flex justify-between items-start">
                             <div>
@@ -418,9 +384,7 @@ export default function Index() {
                           <p className="mt-4 text-zinc-700">{t.blurb}</p>
                           <div className="mt-4 flex flex-wrap gap-2">
                             {t.skills.map((s) => (
-                              <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">
-                                {s}
-                              </span>
+                              <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">{s}</span>
                             ))}
                           </div>
                         </article>
@@ -432,18 +396,17 @@ export default function Index() {
             </div>
           </section>
 
-          {/* SKILLS + EDUCATION + CERTS (stacked vertically, not side-by-side) */}
+          {/* SKILLS + EDUCATION + CERTS */}
           <section id="skills" className="mt-12">
             <h2 className="text-2xl font-bold">Skills</h2>
             <p className="mt-1 text-zinc-600">Tools, techniques and areas I use frequently.</p>
 
             <div className="mt-6 grid gap-4">
-              {/* Skills grid (light blue tiles) */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {SKILLS.map((s) => (
                   <div
                     key={s.id}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-sky-50 hover:translate-y-[-2px] transition transform shadow-sm"
+                    className="flex items-center gap-3 p-3 rounded-lg bg-sky-50 hover:-translate-y-1 transition transform shadow-sm"
                     title={s.name}
                   >
                     <div className="text-xl">{s.icon}</div>
@@ -452,7 +415,6 @@ export default function Index() {
                 ))}
               </div>
 
-              {/* Education section (stacked below skills) */}
               <div id="education" className="mt-8">
                 <h3 className="text-xl font-semibold">Education</h3>
                 <div className="mt-4 space-y-4">
@@ -487,7 +449,6 @@ export default function Index() {
                 </div>
               </div>
 
-              {/* Certifications (stacked below education) */}
               <div id="certifications" className="mt-8">
                 <h3 className="text-xl font-semibold">Certifications</h3>
                 <p className="text-sm text-zinc-600 mt-1">Click to view certificate (PDF/image).</p>
