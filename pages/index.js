@@ -1,412 +1,558 @@
 // pages/index.js
-import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
+// Full single-file Next.js page for Meenakshi Verma portfolio
+// - stacked Skills / Education / Certifications
+// - projects: AMP, Warranty, Ramboll (no Ramboll case study link)
+// - top nav with section anchors (collapses to vertical on small screens)
+// - timeline fixed & aligned
+// - hero spacing tightened, removes hazy line
+// - profile image uses /profile.jpg (/profile.png fallback)
+// - skill tiles light blue, with icons and hover micro-animations
+// Note: uses Tailwind classes (assumes Tailwind is configured in the project)
+
+import Head from "next/head";
+import React, { useState, useEffect } from "react";
 
 const CONTACT = {
-  name: 'Meenakshi Verma',
-  title: 'Product Owner → Product Manager',
-  location: 'Sydney, Australia',
-  phone: '+61 411021915',
-  email: 'minakshi.kiit@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/mkva/',
-  resume: '/Meenakshi_Resume_UPDATED.pdf' // put final resume into /public
+  name: "Meenakshi Verma",
+  title: "Product Owner → Product Manager",
+  location: "Sydney, Australia",
+  phone: "+61 411021915",
+  email: "minakshi.kiit@gmail.com",
+  linkedin: "https://www.linkedin.com/in/mkva/",
+  resume: "/Meenakshi_Resume_UPDATED.pdf",
 };
 
-// Full skill list with small emoji/svg icons (replace with brand svgs if you add them to public)
-const SKILLS = [
-  { id: 'product-roadmap', name: 'Product Roadmap', icon: '📈', color: 'bg-blue-50' },
-  { id: 'product-portfolio', name: 'Product Portfolio Management', icon: '🗂️', color: 'bg-blue-50' },
-  { id: 'agile', name: 'Agile & Scrum', icon: '⚡', color: 'bg-blue-50' },
-  { id: 'safe', name: 'SAFe', icon: '🧩', color: 'bg-blue-50' },
-  { id: 'jira', name: 'JIRA', icon: '🧭', color: 'bg-blue-50' },
-  { id: 'mysql', name: 'MySQL', icon: '🛢️', color: 'bg-blue-50' },
-  { id: 'sql', name: 'SQL (Basics)', icon: '💾', color: 'bg-blue-50' },
-  { id: 'data-analytics', name: 'Data & Analytics', icon: '📊', color: 'bg-blue-50' },
-  { id: 'ux', name: 'UX/UI Collaboration', icon: '🎨', color: 'bg-blue-50' },
-  { id: 'wireframing', name: 'Wireframing', icon: '🧱', color: 'bg-blue-50' },
-  { id: 'office', name: 'Microsoft Office Suite', icon: '📎', color: 'bg-blue-50' },
-  { id: 'prioritization', name: 'Prioritization', icon: '🎯', color: 'bg-blue-50' },
-  { id: 'api', name: 'API Product Management', icon: '🔗', color: 'bg-blue-50' },
-  { id: 'research', name: 'User Research', icon: '🔍', color: 'bg-blue-50' }
+const PROJECTS = [
+  {
+    id: "amp",
+    title: "AMP Charge Verification Journey",
+    role: "Product Owner",
+    summary:
+      "Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.",
+    tags: ["Fraud", "APIs", "IVR", "Product Strategy"],
+    caseStudy: "/projects/amp-charge-verification", // keeps case study link
+  },
+  {
+    id: "warranty",
+    title: "Warranty Excellence Monitor",
+    role: "Business Analyst (ATCS)",
+    summary:
+      "Web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages with 6 core KPIs and drill-down charts.",
+    tags: ["Analytics", "Dashboard", "KPI Design", "Stakeholder Mgmt"],
+    caseStudy: "/projects/warranty-excellence", // keeps case study link
+  },
+  {
+    id: "ramboll",
+    title: "Digital Automation & UX Improvements — Ramboll",
+    role: "Assistant Product Specialist",
+    summary:
+      "Delivered automation and UX improvements that increased adoption of digital tools and saved significant manual effort.",
+    tags: ["Automation", "UX", "SQL"],
+    caseStudy: null, // no case study link (you asked to remove Ramboll case study)
+  },
 ];
 
 const TIMELINE = [
   {
-    yearLabel: '2025',
-    company: 'Portfolio Builder',
-    role: 'Aspiring Product Manager / Transitioning to Australia',
-    period: '2025',
-    description: 'Preparing for Product Manager roles in Australia — building public portfolio, case studies and strengthening product & data skills.',
-    skills: ['Product Strategy', 'Portfolio Building', 'MySQL']
+    year: 2025,
+    title: "Aspiring Product Manager / Transitioning to Australia",
+    org: "Portfolio Builder",
+    blurb:
+      "Preparing for Product Manager roles in Australia — building public portfolio and case studies; strengthening product & data skills.",
+    skills: ["Product Strategy", "Portfolio Building", "MySQL"],
   },
   {
-    yearLabel: '2022 – 2025',
-    company: 'American Express',
-    role: 'Sr. Associate Product Management / Product Owner',
-    period: '2022 – 2025',
-    description: 'Led Credit Authorization uplift; owned AMP (Charge Verification) for IVR & fraud, managed roadmaps, API uplifts and cross-functional delivery.',
-    skills: ['Product Roadmap', 'APIs', 'IVR', 'Fraud', 'Stakeholder Mgmt', 'JIRA']
+    year: "2022–2025",
+    title: "Sr. Associate Product Management / Product Owner",
+    org: "American Express",
+    blurb:
+      "Led Credit Authorization uplift; owned AMP (Charge Verification) for IVR & fraud, managed roadmaps, API uplifts and cross-functional delivery.",
+    skills: ["Product Roadmap", "APIs", "IVR", "Fraud", "Stakeholder Mgmt", "JIRA"],
   },
   {
-    yearLabel: '2021',
-    company: 'Ramboll',
-    role: 'Assistant Product Specialist',
-    period: '2021',
-    description: 'Delivered automation & UX improvements that increased digital adoption and saved manual hours.',
-    skills: ['Automation', 'UX', 'SQL']
+    year: 2021,
+    title: "Assistant Product Specialist",
+    org: "Ramboll",
+    blurb:
+      "Delivered automation & UX improvements that saved manual hours and increased digital tool adoption.",
+    skills: ["Automation", "UX", "SQL"],
   },
   {
-    yearLabel: '2018 – 2021',
-    company: 'ATCS Inc',
-    role: 'Business Analyst — Warranty Excellence Monitor',
-    period: '2018 – 2021',
-    description: 'Built web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages; defined KPIs and improved reporting cadence.',
-    skills: ['Analytics', 'KPI Design', 'Stakeholder Mgmt', 'Dashboard']
-  }
+    year: "2018–2021",
+    title: "Business Analyst — Warranty Excellence Monitor",
+    org: "ATCS Inc",
+    blurb:
+      "Built a web-based dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages; defined KPIs and improved reporting cadence.",
+    skills: ["Analytics", "KPI Design", "Stakeholder Mgmt"],
+  },
 ];
 
-const PROJECTS = [
-  {
-    title: 'AMP Charge Verification Journey',
-    role: 'Product Owner',
-    summary: 'Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.',
-    tags: ['Fraud', 'APIs', 'IVR', 'Product Strategy'],
-    link: '/projects/amp-charge-verification' // optional page if you create it
-  },
-  {
-    title: 'Warranty Excellence Monitor',
-    role: 'Business Analyst (ATCS)',
-    summary: 'Web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages with 6 core KPIs and drill-down charts.',
-    tags: ['Analytics', 'Dashboard', 'KPI Design', 'Stakeholder Mgmt'],
-    link: '/projects/warranty-excellence'
-  }
+const SKILLS = [
+  { id: "product-roadmap", name: "Product Roadmap", icon: "📈" },
+  { id: "product-portfolio", name: "Product Portfolio Management", icon: "🗂" },
+  { id: "mysql", name: "MySQL", icon: "🛢" },
+  { id: "jira", name: "JIRA", icon: "🧭" },
+  { id: "safe", name: "SAFe", icon: "🧩" },
+  { id: "agile", name: "Agile & Scrum", icon: "⚡️" },
+  { id: "ux", name: "UX/UI Collaboration", icon: "🎨" },
+  { id: "data-analytics", name: "Data & Analytics", icon: "📊" },
+  { id: "sql", name: "SQL (Basics)", icon: "💾" },
+  { id: "wireframing", name: "Wireframing", icon: "🧱" },
+  { id: "ms-office", name: "Microsoft Office Suite", icon: "📎" },
+  { id: "prioritization", name: "Prioritization", icon: "🎯" },
+  { id: "api-pm", name: "API Product Management", icon: "🔗" },
+  { id: "user-research", name: "User Research", icon: "🔍" },
 ];
 
-function SkillTile({ s }) {
-  return (
-    <div
-      role="button"
-      tabIndex={0}
-      className="flex items-center gap-3 p-4 rounded-lg shadow-sm transform transition hover:-translate-y-1 hover:shadow-md cursor-default select-none"
-      style={{ background: 'linear-gradient(180deg, rgba(235,249,255,0.8), rgba(225,241,251,0.85))' }}
-    >
-      <div className="w-10 h-10 rounded-md flex items-center justify-center text-xl">{s.icon}</div>
-      <div className="text-sm font-medium">{s.name}</div>
-    </div>
-  );
-}
-
-export default function Portfolio() {
+export default function Index() {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  // small helper to smooth-scroll to sections
   useEffect(() => {
-    // optional: highlight nav link on scroll
-    const onScroll = () => {
-      const sections = ['about', 'projects', 'experience', 'skills', 'education', 'contact'];
-      const offsets = sections.map(id => {
-        const el = document.getElementById(id);
-        return el ? { id, top: Math.abs(el.getBoundingClientRect().top) } : { id, top: Infinity };
-      });
-      const nearest = offsets.reduce((a, b) => (a.top < b.top ? a : b), offsets[0]);
-      document.querySelectorAll('[data-nav]').forEach(n => n.classList.remove('bg-indigo-600', 'text-white'));
-      const active = document.querySelector(`[data-nav="${nearest.id}"]`);
-      if (active) active.classList.add('bg-indigo-600', 'text-white');
+    const handler = (e) => {
+      if (e.target.tagName === "A" && e.target.hash) {
+        const el = document.querySelector(e.target.hash);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          setMobileNavOpen(false);
+        }
+      }
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
   }, []);
 
   return (
     <>
       <Head>
-        <title>{CONTACT.name} — Product Portfolio</title>
-        <meta name="description" content="Portfolio of Meenakshi Verma — Product Owner & aspiring Product Manager." />
+        <title>Meenakshi Verma — Product Portfolio</title>
+        <meta
+          name="description"
+          content="Portfolio of Meenakshi Verma — Product Owner & aspiring Product Manager."
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-        <style>{`
-          html { scroll-behavior: smooth; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
-        `}</style>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+        <style>{`html { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }`}</style>
       </Head>
 
-      <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-sm border-b">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="font-semibold">{CONTACT.name}</div>
-            <div className="text-sm text-zinc-500 hidden md:block">— {CONTACT.title}</div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {['about', 'projects', 'experience', 'skills', 'education', 'contact'].map(id => (
-              <a
-                key={id}
-                data-nav={id}
-                href={`#${id}`}
-                className="px-3 py-1 rounded text-sm text-zinc-700 hover:bg-indigo-600 hover:text-white transition"
-              >
-                {id === 'about' ? 'About' : id.charAt(0).toUpperCase() + id.slice(1)}
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
-
-      <main className="min-h-screen bg-white text-zinc-900">
-        <section id="about" className="pt-8 pb-12" style={{ background: 'linear-gradient(180deg,#eaf8ff 0%, #e6f7ff 100%)' }}>
+      <div className="min-h-screen bg-white">
+        {/* NAV */}
+        <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="rounded-2xl p-8 bg-white shadow-md flex flex-col md:flex-row gap-6 md:gap-10 items-center">
-              {/* Profile */}
-              <div className="flex-shrink-0">
-                <img
-                  src="/profile.jpg"
-                  alt={`${CONTACT.name} headshot`}
-                  className="w-36 h-36 object-cover rounded-full border-4 border-white shadow-lg"
-                  onError={(e) => {
-                    // fallback to initials circle
-                    e.currentTarget.style.display = 'none';
-                    const el = document.getElementById('initials-fallback');
-                    if (el) el.style.display = 'flex';
-                  }}
-                />
-                <div id="initials-fallback" style={{ display: 'none' }} className="w-36 h-36 rounded-full bg-indigo-600 text-white flex items-center justify-center text-3xl font-extrabold shadow-lg">MV</div>
+            <div className="flex items-center justify-between h-14">
+              <div className="flex items-center gap-4">
+                <a href="#about" className="font-semibold text-lg">
+                  {CONTACT.name}
+                </a>
+                <span className="text-sm text-zinc-500 hidden sm:inline">
+                  — {CONTACT.title}
+                </span>
               </div>
 
-              <div className="flex-1">
-                <h1 className="text-3xl md:text-4xl font-extrabold">{CONTACT.name}</h1>
-                <p className="mt-2 text-lg text-zinc-600">{CONTACT.title} • {CONTACT.location}</p>
+              {/* Desktop menu */}
+              <div className="hidden md:flex items-center gap-6">
+                <a href="#about" className="text-sm hover:underline px-2 py-1 rounded">
+                  About
+                </a>
+                <a href="#projects" className="text-sm hover:underline px-2 py-1 rounded">
+                  Projects
+                </a>
+                <a href="#experience" className="text-sm hover:underline px-2 py-1 rounded">
+                  Experience
+                </a>
+                <a href="#skills" className="text-sm hover:underline px-2 py-1 rounded">
+                  Skills
+                </a>
+                <a href="#education" className="text-sm hover:underline px-2 py-1 rounded">
+                  Education
+                </a>
+                <a href="#contact" className="text-sm hover:underline px-2 py-1 rounded">
+                  Contact
+                </a>
+              </div>
 
-                <p className="mt-4 text-zinc-700 max-w-3xl">I build scalable products and frictionless customer experiences — product strategy, cross-functional leadership and data-driven delivery across global markets.</p>
-
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <a href={CONTACT.resume} className="px-4 py-2 rounded-lg bg-indigo-600 text-white shadow" target="_blank" rel="noopener noreferrer">Download Resume</a>
-                  <a href={CONTACT.linkedin} className="px-4 py-2 rounded-lg border" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                  <a href={`mailto:${CONTACT.email}`} className="px-4 py-2 rounded-lg border">Email</a>
-                </div>
-
-                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-zinc-600">
-                  <div>
-                    <div className="text-xs">Years experience</div>
-                    <div className="font-semibold">8+</div>
-                  </div>
-                  <div>
-                    <div className="text-xs">Focus</div>
-                    <div className="font-semibold">Product Strategy</div>
-                  </div>
-                  <div>
-                    <div className="text-xs">Strength</div>
-                    <div className="font-semibold">Execution & Delivery</div>
-                  </div>
-                  <div>
-                    <div className="text-xs">Tools</div>
-                    <div className="font-semibold">JIRA, Visio, Tableau</div>
-                  </div>
-                </div>
+              {/* Mobile menu toggle */}
+              <div className="md:hidden">
+                <button
+                  aria-label="Toggle menu"
+                  onClick={() => setMobileNavOpen((s) => !s)}
+                  className="p-2 rounded-md hover:bg-zinc-100"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
 
-          {/* angled divider */}
-          <div className="mt-8">
-            <svg viewBox="0 0 1440 64" className="w-full" preserveAspectRatio="none" style={{ display: 'block' }}>
-              <path d="M0,0 L1440,0 L1440,64 L0,0 Z" fill="#07263b" opacity="0.06" />
-            </svg>
-          </div>
-        </section>
+          {/* Mobile menu (vertical) */}
+          {mobileNavOpen && (
+            <div className="md:hidden border-t bg-white/95">
+              <div className="px-6 py-4 flex flex-col gap-2">
+                <a href="#about" className="py-2">About</a>
+                <a href="#projects" className="py-2">Projects</a>
+                <a href="#experience" className="py-2">Experience</a>
+                <a href="#skills" className="py-2">Skills</a>
+                <a href="#education" className="py-2">Education</a>
+                <a href="#contact" className="py-2">Contact</a>
+              </div>
+            </div>
+          )}
+        </nav>
 
-        {/* Projects - darker blue */}
-        <section id="projects" className="py-12" style={{ background: 'linear-gradient(180deg,#07263b 0%, #06283a 100%)' }}>
-          <div className="max-w-6xl mx-auto px-6 text-white">
-            <h2 className="text-3xl font-bold">Projects</h2>
-            <p className="mt-2 text-zinc-200">Case studies and notable work I’ve led.</p>
+        <main className="max-w-6xl mx-auto px-6 pb-20">
+          {/* HERO */}
+          <section id="about" className="mt-8">
+            <div className="rounded-xl bg-white shadow-lg p-8 md:p-12 -mt-6">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="flex-shrink-0">
+                  {/* profile image - prefer profile.jpg then profile.png fallback */}
+                  <img
+                    src="/profile.jpg"
+                    alt="Profile"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/profile.png";
+                    }}
+                    className="w-36 h-36 rounded-full object-cover shadow-md ring-4 ring-white"
+                  />
+                </div>
 
-            <div className="mt-8 grid gap-6 md:grid-cols-2">
-              {PROJECTS.map(p => (
-                <div key={p.title} className="p-6 rounded-2xl bg-white/5 border border-white/10">
-                  <h3 className="text-xl font-semibold text-white">{p.title}</h3>
-                  <p className="mt-1 text-sm text-zinc-200"><strong>Role:</strong> {p.role}</p>
-                  <p className="mt-4 text-zinc-200">{p.summary}</p>
+                <div className="flex-1">
+                  <h1 className="text-3xl md:text-4xl font-extrabold">{CONTACT.name}</h1>
+                  <p className="mt-1 text-zinc-600">
+                    {CONTACT.title} • {CONTACT.location}
+                  </p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.tags.map(t => (
-                      <span key={t} className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-xs text-white/90">
-                        {t}
-                      </span>
-                    ))}
+                  <p className="mt-4 max-w-3xl text-zinc-700">
+                    I build scalable products and frictionless customer experiences — product strategy,
+                    cross-functional leadership and data-driven delivery across global markets.
+                  </p>
+
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <a
+                      href={CONTACT.resume}
+                      className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Download Resume
+                    </a>
+                    <a
+                      href={CONTACT.linkedin}
+                      className="inline-block px-4 py-2 border rounded-lg hover:bg-zinc-50"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      LinkedIn
+                    </a>
+                    <a
+                      href={`mailto:${CONTACT.email}`}
+                      className="inline-block px-4 py-2 border rounded-lg hover:bg-zinc-50"
+                    >
+                      Email
+                    </a>
                   </div>
 
-                  {p.link && (
-                    <div className="mt-4">
-                      <a href={p.link} className="text-sm text-sky-200 hover:underline" >View case study →</a>
+                  <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm text-zinc-600">
+                    <div>
+                      <div className="text-xs">Years experience</div>
+                      <div className="font-semibold">8+</div>
                     </div>
-                  )}
+                    <div>
+                      <div className="text-xs">Focus</div>
+                      <div className="font-semibold">Product Strategy</div>
+                    </div>
+                    <div>
+                      <div className="text-xs">Strength</div>
+                      <div className="font-semibold">Execution & Delivery</div>
+                    </div>
+                    <div>
+                      <div className="text-xs">Tools</div>
+                      <div className="font-semibold">JIRA, Visio, Tableau</div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        </section>
+            {/* small decorative angled divider */}
+            <div className="mt-6 overflow-hidden" aria-hidden>
+              <svg viewBox="0 0 1200 60" className="w-full h-14" preserveAspectRatio="none">
+                <path d="M0,20 C300,70 900,-20 1200,30 L1200,60 L0,60 Z" fill="#f1fbff" />
+              </svg>
+            </div>
+          </section>
 
-        {/* Work Experience (timeline) - light blue */}
-        <section id="experience" className="py-12" style={{ background: 'linear-gradient(180deg,#eaf6fb 0%, #eef9fe 100%)' }}>
-          <div className="max-w-6xl mx-auto px-6">
-            <h2 className="text-3xl font-bold">Work Experience</h2>
-            <p className="mt-2 text-zinc-600">Most recent roles first (2025 → 2018). Click/tap cards on small screens to read quickly.</p>
+          {/* PROJECTS */}
+          <section id="projects" className="mt-8">
+            <div className="rounded-xl bg-gradient-to-b from-slate-900 to-slate-800 text-white p-10 shadow-inner">
+              <h2 className="text-2xl font-bold">Projects</h2>
+              <p className="mt-2 text-slate-200">Case studies and notable work I’ve led.</p>
 
-            <div className="mt-10 relative">
-              {/* center vertical line */}
-              <div className="absolute inset-x-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-zinc-300/50" />
+              <div className="mt-6 grid gap-6 md:grid-cols-2">
+                {PROJECTS.map((p) => (
+                  <div key={p.id} className="p-6 bg-white/5 rounded-2xl border border-white/10">
+                    <h3 className="text-lg font-semibold">{p.title}</h3>
+                    <p className="mt-1 text-sm text-white/80">
+                      <strong>Role:</strong> {p.role}
+                    </p>
+                    <p className="mt-4 text-white/80">{p.summary}</p>
 
-              <div className="space-y-14">
-                {TIMELINE.map((item, i) => {
-                  const left = i % 2 === 0;
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {p.tags.map((t) => (
+                        <span key={t} className="text-xs bg-white/10 py-1 px-3 rounded-full">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-4">
+                      {p.caseStudy ? (
+                        <a
+                          href={p.caseStudy}
+                          className="inline-flex items-center text-sm text-sky-200 hover:underline"
+                        >
+                          View case study →
+                        </a>
+                      ) : (
+                        <span className="inline-flex items-center text-sm text-white/60">Case study not available</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* EXPERIENCE / TIMELINE */}
+          <section id="experience" className="mt-12">
+            <h2 className="text-2xl font-bold">Work Experience</h2>
+            <p className="mt-1 text-zinc-600">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
+
+            <div className="relative mt-8">
+              {/* vertical centre line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 h-full">
+                <div className="w-0.5 bg-zinc-200" style={{ height: "100%" }} />
+              </div>
+
+              <div className="space-y-12">
+                {/* iterate timeline entries; show 2025 at top */}
+                {TIMELINE.map((t, idx) => {
+                  // alternate left/right layout for large screens; on small screens stack
+                  const isLeft = idx % 2 === 0;
                   return (
-                    <div key={item.company} className="relative flex flex-col md:flex-row items-start md:items-stretch">
-                      {/* card container */}
-                      <div className={`md:w-1/2 ${left ? 'md:pr-8 md:pl-0 md:text-right' : 'md:pl-8 md:pr-0'}`}>
-                        <div className={`${left ? 'md:ml-auto md:text-left' : ''} md:max-w-lg`}>
-                          <div className="bg-white rounded-2xl p-6 shadow">
-                            <div className="flex items-start justify-between gap-4">
+                    <div key={t.year} className="md:flex md:items-start md:justify-between">
+                      {/* left side */}
+                      <div className={`md:w-5/12 ${isLeft ? "md:order-1" : "md:order-2"}`}>
+                        {/* show only when left on md, otherwise blank to keep line centered */}
+                        {isLeft ? (
+                          <article className="bg-white rounded-xl p-6 shadow-md">
+                            <div className="flex justify-between items-start">
                               <div>
-                                <h3 className="text-lg font-semibold">{item.role}</h3>
-                                <div className="text-sm text-zinc-500">{item.company}</div>
+                                <h3 className="text-lg font-semibold">{t.title}</h3>
+                                <div className="text-sm text-zinc-500 mt-1">{t.org}</div>
                               </div>
-                              <div className="text-sm text-zinc-400">{item.period}</div>
+                              <div className="text-sm text-zinc-400">{t.year}</div>
                             </div>
-
-                            <p className="mt-3 text-zinc-700">{item.description}</p>
-
+                            <p className="mt-4 text-zinc-700">{t.blurb}</p>
                             <div className="mt-4 flex flex-wrap gap-2">
-                              {item.skills.map(s => <span key={s} className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-sky-50 text-sky-700">{s}</span>)}
+                              {t.skills.map((s) => (
+                                <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">
+                                  {s}
+                                </span>
+                              ))}
                             </div>
-                          </div>
+                          </article>
+                        ) : (
+                          <div className="hidden md:block" />
+                        )}
+                      </div>
+
+                      {/* centre marker */}
+                      <div className="md:w-2/12 flex justify-center relative">
+                        <div className="w-6 h-6 rounded-full border-4 border-white bg-sky-50/80 flex items-center justify-center shadow">
+                          <div className="w-2 h-2 rounded-full bg-sky-500" />
                         </div>
                       </div>
 
-                      {/* timeline dot (center) */}
-                      <div className="md:w-0 flex justify-center md:contents">
-                        <div className="w-4 h-4 rounded-full bg-white border-2 border-sky-400 -mt-2 md:mt-6"></div>
+                      {/* right side */}
+                      <div className={`md:w-5/12 ${isLeft ? "md:order-3" : "md:order-1"}`}>
+                        {isLeft ? (
+                          <div className="hidden md:block" />
+                        ) : (
+                          <article className="bg-white rounded-xl p-6 shadow-md">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h3 className="text-lg font-semibold">{t.title}</h3>
+                                <div className="text-sm text-zinc-500 mt-1">{t.org}</div>
+                              </div>
+                              <div className="text-sm text-zinc-400">{t.year}</div>
+                            </div>
+                            <p className="mt-4 text-zinc-700">{t.blurb}</p>
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              {t.skills.map((s) => (
+                                <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">
+                                  {s}
+                                </span>
+                              ))}
+                            </div>
+                          </article>
+                        )}
                       </div>
 
-                      {/* opposite side empty on desktop when left aligned */}
-                      <div className={`md:w-1/2 ${left ? 'md:pl-8' : 'md:pr-8'}`}>
-                        {/* keep space symmetrical; on mobile stack cards */}
+                      {/* stacked fallback for small screens (show single card) */}
+                      <div className="md:hidden mt-4">
+                        <article className="bg-white rounded-xl p-6 shadow-md">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <h3 className="text-lg font-semibold">{t.title}</h3>
+                              <div className="text-sm text-zinc-500 mt-1">{t.org}</div>
+                            </div>
+                            <div className="text-sm text-zinc-400">{t.year}</div>
+                          </div>
+                          <p className="mt-4 text-zinc-700">{t.blurb}</p>
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {t.skills.map((s) => (
+                              <span key={s} className="text-xs bg-sky-50/80 text-sky-700 px-3 py-1 rounded-full">
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                        </article>
                       </div>
                     </div>
                   );
                 })}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Skills & Education stack vertically on small screens; side-by-side on larger screens */}
-        <section id="skills" className="py-12" style={{ background: 'linear-gradient(180deg,#edf9ff 0%, #e6f7ff 100%)' }}>
-          <div className="max-w-6xl mx-auto px-6 grid gap-10 grid-cols-1 lg:grid-cols-2">
-            {/* Skills column */}
-            <div>
-              <h2 className="text-2xl font-bold">Skills</h2>
-              <p className="mt-2 text-zinc-600">Tools, techniques and areas I use frequently.</p>
+          {/* SKILLS + EDUCATION + CERTS (stacked vertically, not side-by-side) */}
+          <section id="skills" className="mt-12">
+            <h2 className="text-2xl font-bold">Skills</h2>
+            <p className="mt-1 text-zinc-600">Tools, techniques and areas I use frequently.</p>
 
-              <div className="mt-6 grid gap-4 grid-cols-2 sm:grid-cols-3">
-                {SKILLS.map(s => <SkillTile key={s.id} s={s} />)}
+            <div className="mt-6 grid gap-4">
+              {/* Skills grid (light blue tiles) */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {SKILLS.map((s) => (
+                  <div
+                    key={s.id}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-sky-50 hover:translate-y-[-2px] transition transform shadow-sm"
+                    title={s.name}
+                  >
+                    <div className="text-xl">{s.icon}</div>
+                    <div className="text-sm font-medium text-sky-900">{s.name}</div>
+                  </div>
+                ))}
               </div>
-            </div>
 
-            {/* Education & Certifications column */}
-            <div id="education" className="space-y-6">
-              <h2 className="text-2xl font-bold">Education</h2>
-
-              <div className="space-y-4">
-                <div className="bg-white rounded-lg p-4 shadow">
-                  <div className="flex justify-between">
-                    <div>
-                      <div className="font-semibold">M.Tech — IIT Roorkee</div>
-                      <div className="text-sm text-zinc-600">Alternate Hydro Energy Systems</div>
-                      <ul className="mt-2 text-sm text-zinc-700 list-disc list-inside">
-                        <li>Graduate coursework in data analysis, energy systems modeling</li>
-                        <li>Member of Placement Cell</li>
-                        <li>Dissertation: GIS Integrated Hydropower Assessment</li>
-                      </ul>
+              {/* Education section (stacked below skills) */}
+              <div id="education" className="mt-8">
+                <h3 className="text-xl font-semibold">Education</h3>
+                <div className="mt-4 space-y-4">
+                  <div className="bg-white rounded-lg p-4 shadow-sm border">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold">M.Tech — IIT Roorkee</div>
+                        <div className="text-sm text-zinc-500">Alternate Hydro Energy Systems</div>
+                      </div>
+                      <div className="text-sm text-zinc-400">2016–2018</div>
                     </div>
-                    <div className="text-sm text-zinc-400">2016–2018</div>
+                    <ul className="mt-3 text-sm text-zinc-700 list-disc list-inside">
+                      <li>Graduate coursework in data analysis, energy systems modeling</li>
+                      <li>Member of Placement Cell</li>
+                      <li>Dissertation: GIS Integrated Hydropower Assessment</li>
+                    </ul>
                   </div>
-                </div>
 
-                <div className="bg-white rounded-lg p-4 shadow">
-                  <div className="flex justify-between">
-                    <div>
-                      <div className="font-semibold">B.Tech — KIIT University, Bhubaneswar</div>
-                      <div className="text-sm text-zinc-600">Civil Engineering</div>
-                      <ul className="mt-2 text-sm text-zinc-700 list-disc list-inside">
-                        <li>Project: Hydrated Lime for Modification of Bituminous Binder</li>
-                        <li>Active Member: National Service Scheme (2014)</li>
-                      </ul>
+                  <div className="bg-white rounded-lg p-4 shadow-sm border">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold">B.Tech — KIIT University, Bhubaneswar</div>
+                        <div className="text-sm text-zinc-500">Civil Engineering</div>
+                      </div>
+                      <div className="text-sm text-zinc-400">2010–2014</div>
                     </div>
-                    <div className="text-sm text-zinc-400">2010–2014</div>
+                    <ul className="mt-3 text-sm text-zinc-700 list-disc list-inside">
+                      <li>Project: Hydrated Lime for Modification of Bituminous Binder</li>
+                      <li>Active Member: National Service Scheme (2014)</li>
+                    </ul>
                   </div>
                 </div>
               </div>
 
-              <h3 className="text-lg font-semibold">Certifications</h3>
-              <div className="space-y-3">
-                <div className="bg-white rounded-lg p-4 shadow flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold">Certified Scrum Master (CSM) — Scrum Alliance</div>
-                    <div className="text-sm text-zinc-600">Issued: 2020</div>
+              {/* Certifications (stacked below education) */}
+              <div id="certifications" className="mt-8">
+                <h3 className="text-xl font-semibold">Certifications</h3>
+                <p className="text-sm text-zinc-600 mt-1">Click to view certificate (PDF/image).</p>
+
+                <div className="mt-4 space-y-3">
+                  <div className="bg-white rounded-lg p-4 shadow-sm border flex items-center justify-between">
+                    <div>
+                      <div className="font-semibold">Certified Scrum Master (CSM) — Scrum Alliance</div>
+                      <div className="text-sm text-zinc-500">Issued: 2020</div>
+                    </div>
+                    <div>
+                      <a href="/certs/CSM.pdf" target="_blank" rel="noreferrer" className="text-sky-600 hover:underline">
+                        View Certificate →
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <a href="/certs/CSM.pdf" className="text-sky-600 hover:underline" target="_blank" rel="noopener noreferrer">View Certificate →</a>
+
+                  <div className="bg-white rounded-lg p-4 shadow-sm border flex items-center justify-between">
+                    <div>
+                      <div className="font-semibold">SAFe® Product Owner/Product Manager (POPM)</div>
+                      <div className="text-sm text-zinc-500">Issued: Jan 2024</div>
+                    </div>
+                    <div>
+                      <a href="/certs/POPM.jpeg" target="_blank" rel="noreferrer" className="text-sky-600 hover:underline">
+                        View Certificate →
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4 shadow-sm border flex items-center justify-between">
+                    <div>
+                      <div className="font-semibold">Harvard Leadership Edge</div>
+                      <div className="text-sm text-zinc-500">Issued: Oct 2023</div>
+                    </div>
+                    <div>
+                      <a href="/certs/Harvard_Leadership.jpeg" target="_blank" rel="noreferrer" className="text-sky-600 hover:underline">
+                        View Certificate →
+                      </a>
+                    </div>
                   </div>
                 </div>
-
-                <div className="bg-white rounded-lg p-4 shadow flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold">SAFe® Product Owner/Product Manager (POPM)</div>
-                    <div className="text-sm text-zinc-600">Issued: Jan 2024</div>
-                  </div>
-                  <div>
-                    <a href="/certs/POPM.jpeg" className="text-sky-600 hover:underline" target="_blank" rel="noopener noreferrer">View Certificate →</a>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-lg p-4 shadow flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold">Harvard Leadership Edge</div>
-                    <div className="text-sm text-zinc-600">Issued: Oct 2023</div>
-                  </div>
-                  <div>
-                    <a href="/certs/Harvard_Leadership.jpeg" className="text-sky-600 hover:underline" target="_blank" rel="noopener noreferrer">View Certificate →</a>
-                  </div>
-                </div>
-              </div>
-
-              <h3 className="text-lg font-semibold mt-6">Awards & Achievements</h3>
-              <ul className="list-disc list-inside text-zinc-700">
-                <li><strong>Best of the Best Award</strong> — ATCS (2019): Recognized for Warranty Excellence Dashboard (29 markets, 13 languages).</li>
-                <li><strong>Star of the Month</strong> — ATCS (multiple times): For stakeholder coordination & releases.</li>
-                <li><strong>Sprint Leadership Recognition</strong> — American Express: For leading cross-functional API uplift delivery.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact / Footer */}
-        <section id="contact" className="py-8">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="bg-white rounded-2xl p-6 shadow flex flex-col md:flex-row items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold">Get in touch</h3>
-                <p className="text-sm text-zinc-600 mt-1">{CONTACT.name} — {CONTACT.title}</p>
-                <p className="text-sm text-zinc-600 mt-1">{CONTACT.location} • <a href={`tel:${CONTACT.phone}`} className="underline">{CONTACT.phone}</a> • <a href={`mailto:${CONTACT.email}`} className="underline">{CONTACT.email}</a></p>
-              </div>
-
-              <div className="mt-4 md:mt-0 flex gap-3">
-                <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border rounded">LinkedIn</a>
-                <a href={CONTACT.resume} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border rounded">Resume (PDF)</a>
               </div>
             </div>
+          </section>
 
-            <p className="mt-6 text-sm text-zinc-500">Built with ♥ — tailored for Product roles. © {new Date().getFullYear()} {CONTACT.name}</p>
-          </div>
-        </section>
-      </main>
+          {/* CONTACT / FOOTER */}
+          <section id="contact" className="mt-12">
+            <div className="bg-white rounded-xl p-6 shadow-md border">
+              <h3 className="text-lg font-semibold">Get in touch</h3>
+              <p className="mt-2 text-sm text-zinc-700">{CONTACT.name} — {CONTACT.title}</p>
+              <p className="mt-1 text-sm text-zinc-700">
+                {CONTACT.location} • <a href={`tel:${CONTACT.phone}`} className="underline">{CONTACT.phone}</a> •{" "}
+                <a href={`mailto:${CONTACT.email}`} className="underline">{CONTACT.email}</a>
+              </p>
+
+              <div className="mt-4 flex gap-3">
+                <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="text-sm border px-3 py-2 rounded">LinkedIn</a>
+                <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="text-sm border px-3 py-2 rounded">Resume (PDF)</a>
+              </div>
+
+              <p className="mt-6 text-xs text-zinc-500">Built with ♥ — tailored for Product roles. © {new Date().getFullYear()} {CONTACT.name}</p>
+            </div>
+          </section>
+        </main>
+      </div>
     </>
   );
 }
