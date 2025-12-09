@@ -1,16 +1,6 @@
 // pages/index.js
 import Head from "next/head";
-import React, { useEffect } from "react";
-
-/*
-  Updated Portfolio index.js
-  - Blue-shaded section backgrounds
-  - Nav menu that scrolls to sections
-  - Skills tiles with icons and hover micro-animations
-  - Education cards + Certifications gallery + Achievements
-  - First timeline entry title updated to "Aspiring Product Manager / Transitioning to Australia"
-  - Certifications link to /certs/... PDFs (upload to public/certs/)
-*/
+import React, { useEffect, useState } from "react";
 
 const CONTACT = {
   name: "Meenakshi Verma",
@@ -19,147 +9,174 @@ const CONTACT = {
   phone: "+61 411021915",
   email: "minakshi.kiit@gmail.com",
   linkedin: "https://www.linkedin.com/in/mkva/",
-  resume: "/Meenakshi_Resume_UPDATED.pdf",
+  resume: "/Meenakshi_Resume_UPDATED.pdf", // ensure this file is in /public
 };
-
-const TIMELINE = [
-  { date: "2025", title: "Aspiring Product Manager / Transitioning to Australia", details: "Preparing for Product Manager roles in Australia — building public portfolio & case studies." },
-  { date: "2022–2025", title: "Sr. Associate Product Management — American Express", details: "Led Credit Authorization uplift; owned AMP (Charge Verification) work for IVR & fraud; managed roadmaps and API uplifts." },
-  { date: "May 2021", title: "Assistant Product Specialist — Ramboll", details: "Delivered automation & UX improvements that saved manual hours and improved adoption." },
-  { date: "Jul 2018", title: "Business Analyst — ATCS", details: "Worked with Mercedes-Benz/Daimler — delivered Warranty Excellence Monitor and analytics dashboards across multiple markets." }
-];
 
 const PROJECTS = [
   {
     title: "AMP Charge Verification Journey",
     role: "Product Owner",
-    summary: "Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.",
+    summary:
+      "Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.",
     tags: ["Fraud", "APIs", "IVR", "Product Strategy"],
-    link: "/projects/amp-charge-verification"
+    link: "/projects/amp-charge-verification",
   },
   {
     title: "Warranty Excellence Monitor",
     role: "Business Analyst (ATCS)",
-    summary: "Web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages with 6 core KPIs and drill-down charts.",
+    summary:
+      "Web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages. Included 6 core KPIs, drill-down charts and multilingual support.",
     tags: ["Analytics", "Dashboard", "KPI Design", "Stakeholder Mgmt"],
-    link: "/projects/warranty-excellence"
-  }
+    link: "/projects/warranty-excellence",
+  },
+  {
+    title: "Digital Automation & UX Improvements — Ramboll",
+    role: "Assistant Product Specialist",
+    summary:
+      "Delivered automation and UX improvements that increased digital adoption and saved ~1200 person-hours annually.",
+    tags: ["Automation", "UX", "SQL", "A/B Testing"],
+    link: "/projects/ramboll-automation",
+  },
+];
+
+const TIMELINE = [
+  {
+    yearRange: "2025",
+    company: "Portfolio Builder",
+    title: "Aspiring Product Manager / Transitioning to Australia",
+    roleShort: "Portfolio Builder",
+    desc:
+      "Preparing for Product Manager roles in Australia — building public portfolio, case studies and strengthening product & data skills.",
+    skills: ["Product Strategy", "Portfolio Building", "MySQL"],
+  },
+  {
+    yearRange: "2022 — 2025",
+    company: "American Express",
+    title: "Sr. Associate Product Management / Product Owner",
+    roleShort: "Product Owner",
+    desc:
+      "Led Credit Authorization uplift; owned AMP (Charge Verification) work for IVR & fraud; managed roadmaps, API uplifts and cross-functional delivery across regions.",
+    skills: ["Product Roadmap", "APIs", "IVR", "Stakeholder Mgmt", "JIRA"],
+  },
+  {
+    yearRange: "2021",
+    company: "Ramboll",
+    title: "Assistant Product Specialist",
+    roleShort: "Assistant Product Specialist",
+    desc:
+      "Delivered automation and UX improvements that saved manual hours and increased adoption of digital tools.",
+    skills: ["Automation", "UX", "SQL"],
+  },
+  {
+    yearRange: "2018 — 2021",
+    company: "ATCS Inc",
+    title: "Business Analyst — Warranty Excellence Monitor",
+    roleShort: "Business Analyst",
+    desc:
+      "Built a web-based dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages; defined KPIs and improved reporting cadence.",
+    skills: ["Analytics", "KPI Design", "Stakeholder Mgmt"],
+  },
 ];
 
 const SKILLS = [
   { id: "product-roadmap", name: "Product Roadmap", icon: "📈" },
-  { id: "product-portfolio", name: "Product Portfolio Management", icon: "🗂️" },
-  { id: "agile-scrum", name: "Agile & Scrum", icon: "⚡" },
-  { id: "safe", name: "SAFe", icon: "🧩" },
+  { id: "product-portfolio", name: "Product Portfolio Management", icon: "📁" },
+  { id: "mysql", name: "MySQL", icon: "🛢" },
   { id: "jira", name: "JIRA", icon: "🧭" },
-  { id: "mysql", name: "MySQL", icon: "🛢️" },
-  { id: "sql", name: "SQL (Basics)", icon: "💾" },
+  { id: "safe", name: "SAFe", icon: "🧩" },
+  { id: "agile", name: "Agile & Scrum", icon: "⚡️" },
+  { id: "ux", name: "UX/UI Collaboration", icon: "🎨" },
   { id: "data-analytics", name: "Data & Analytics", icon: "📊" },
-  { id: "ux-ui", name: "UX/UI Collaboration", icon: "🎨" },
+  { id: "sql", name: "SQL (Basics)", icon: "🗄" },
   { id: "wireframing", name: "Wireframing", icon: "🧱" },
   { id: "ms-office", name: "Microsoft Office Suite", icon: "📎" },
   { id: "prioritization", name: "Prioritization", icon: "🎯" },
-  { id: "api-product", name: "API Product Management", icon: "🔌" },
-  { id: "user-research", name: "User Research", icon: "🔍" }
+  { id: "api-product", name: "API Product Management", icon: "🔗" },
+  { id: "user-research", name: "User Research", icon: "🔎" },
 ];
 
+function TopNav() {
+  // small nav that uses anchors (smooth scroll)
+  return (
+    <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b">
+      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="font-semibold">Meenakshi Verma</div>
+          <div className="text-sm text-zinc-500 hidden md:block">— Product Owner → Product Manager</div>
+        </div>
 
-const EDUCATION = [
-  {
-    degree: "M.Tech — IIT Roorkee",
-    subject: "Alternate Hydro Energy Systems",
-    years: "2016–2018",
-    bullets: [
-      "Graduate coursework in data analysis, energy systems modeling",
-      "Member of Placement Cell",
-      "Dissertation: GIS Integrated Hydropower Assessment"
-    ]
-  },
-  {
-    degree: "B.Tech — KIIT University, Bhubaneswar",
-    subject: "Civil Engineering",
-    years: "2010–2014",
-    bullets: [
-      "Project: Hydrated Lime for Modification of Bituminous Binder",
-      "Active Member: National Service Scheme (2014)"
-    ]
-  }
-];
-
-const CERTIFICATIONS = [
-  { name: "Certified Scrum Master (CSM) — Scrum Alliance", issued: "2020", file: "/certs/CSM.pdf" },
- { name: "SAFe® Product Owner/Product Manager (POPM)", issued: "Jan 2024", file: "/certs/POPM.jpeg" },
-
-{ name: "Harvard Leadership Edge", issued: "Oct 2023", file: "/certs/Harvard_Leadership.jpeg" },
-];
-
-const ACHIEVEMENTS = [
-  { title: "Best of the Best Award — ATCS (2019)", desc: "Recognized among top performers for delivering the Warranty Excellence Dashboard (29 markets, 13 languages)." },
-  { title: "Star of the Month — ATCS (multiple)", desc: "For outstanding stakeholder coordination & dashboard releases." },
-  { title: "Sprint Leadership Recognition — American Express", desc: "Led cross-functional API uplift delivery with 96% feature completion rate." }
-];
+        <div className="flex items-center gap-4 text-sm">
+          {[
+            ["About", "#about"],
+            ["Projects", "#projects"],
+            ["Work Experience", "#work"],
+            ["Skills", "#skills"],
+            ["Education", "#education"],
+            ["Contact", "#contact"],
+          ].map(([label, href]) => (
+            <a key={href} href={href} className="px-3 py-1 rounded-md hover:bg-indigo-50">
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}
 
 export default function Portfolio() {
-  // smooth-scroll for nav anchors (works in most browsers)
+  // optional fade for hero
+  const [ready, setReady] = useState(false);
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      document.documentElement.style.scrollBehavior = "smooth";
-    }
+    const t = setTimeout(() => setReady(true), 80);
+    return () => clearTimeout(t);
   }, []);
 
   return (
     <>
       <Head>
-        <title>{CONTACT.name} — Product Portfolio</title>
-        <meta name="description" content="Portfolio of Meenakshi Verma — Product Owner & Product Manager" />
+        <title>Meenakshi Verma — Product Portfolio</title>
+        <meta name="description" content="Portfolio of Meenakshi Verma — Product Owner & aspiring Product Manager." />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-        <style>{`html { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }`}</style>
+        <style>{`html { scroll-behavior: smooth; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }`}</style>
       </Head>
 
-      <nav className="w-full sticky top-0 z-30 bg-white/80 backdrop-blur-sm border-b">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="font-semibold">{CONTACT.name}</div>
-            <div className="text-sm text-zinc-600 hidden md:block">— {CONTACT.title}</div>
-          </div>
+      <TopNav />
 
-          <div className="flex gap-4">
-            <a href="#about" className="px-3 py-1 rounded-md bg-indigo-600 text-white text-sm">About</a>
-            <a href="#projects" className="px-3 py-1 rounded-md text-sm hover:bg-zinc-100">Projects</a>
-            <a href="#experience" className="px-3 py-1 rounded-md text-sm hover:bg-zinc-100">Work Experience</a>
-            <a href="#skills" className="px-3 py-1 rounded-md text-sm hover:bg-zinc-100">Skills</a>
-            <a href="#education" className="px-3 py-1 rounded-md text-sm hover:bg-zinc-100">Education</a>
-            <a href="#contact" className="px-3 py-1 rounded-md text-sm hover:bg-zinc-100">Contact</a>
-          </div>
-        </div>
-      </nav>
-
-      <main className="min-h-screen bg-white text-zinc-900">
-        <div id="about" className="max-w-6xl mx-auto px-6 pt-10">
-          {/* About / Hero — light blue panel */}
-          <section className="rounded-2xl p-8 md:p-12 bg-gradient-to-b from-[#eaf6ff] to-[#e1f0ff] shadow-sm">
-            <div className="flex flex-col md:flex-row items-center gap-8">
+      <main className="min-h-screen bg-zinc-50 text-zinc-900">
+        <section id="about" className="pt-10 pb-16 bg-gradient-to-b from-sky-50 via-sky-50 to-white">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="rounded-2xl bg-white shadow-lg p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
+              {/* profile */}
               <div className="flex-shrink-0">
-                <img src="/profile.png" alt={CONTACT.name} className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-md" />
+                <img
+                  src="/profile.jpg"
+                  alt="Meenakshi Verma"
+                  onError={(e) => {
+                    // fallback to png or hide
+                    e.currentTarget.src = "/profile.png";
+                  }}
+                  className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-md"
+                />
               </div>
 
               <div className="flex-1">
                 <h1 className="text-3xl md:text-4xl font-extrabold">{CONTACT.name}</h1>
-                <p className="mt-2 text-lg text-zinc-700">{CONTACT.title} • {CONTACT.location}</p>
+                <p className="mt-2 text-zinc-600">{CONTACT.title} • {CONTACT.location}</p>
 
                 <p className="mt-4 text-zinc-700 max-w-3xl">
                   I build scalable products and frictionless customer experiences — product strategy, cross-functional leadership and data-driven delivery across global markets.
                 </p>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="px-4 py-2 rounded-lg bg-indigo-600 text-white shadow">Download Resume</a>
-                  <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 rounded-lg border">LinkedIn</a>
-                  <a href={`mailto:${CONTACT.email}`} className="px-4 py-2 rounded-lg border">Email</a>
+                  <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg shadow">Download Resume</a>
+                  <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="inline-block px-4 py-2 border rounded-lg">LinkedIn</a>
+                  <a href={`mailto:${CONTACT.email}`} className="inline-block px-4 py-2 border rounded-lg">Email</a>
                 </div>
 
-                <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-zinc-600">
+                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm text-zinc-600">
                   <div>
                     <div className="text-xs">Years experience</div>
                     <div className="font-semibold">8+</div>
@@ -179,192 +196,240 @@ export default function Portfolio() {
                 </div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
-        {/* Projects - darker blue panel */}
-        <div id="projects" className="max-w-6xl mx-auto px-6 mt-10">
-          <section className="rounded-2xl p-8 md:p-12 bg-gradient-to-b from-[#0f2940] to-[#172f47] text-white shadow-inner">
-            <h2 className="text-2xl font-bold">Projects</h2>
-            <p className="mt-2 text-zinc-200">Case studies and notable work I've led.</p>
+        {/* Projects (dark blue shade) */}
+        <section id="projects" className="pt-16 pb-16 bg-gradient-to-b from-sky-900 to-sky-800 text-white">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="rounded-2xl p-8 md:p-12 bg-gradient-to-tr from-sky-900/90 to-sky-800/90 shadow-lg">
+              <h2 className="text-2xl font-bold text-white">Projects</h2>
+              <p className="text-sky-200 mt-2">Case studies and notable work I’ve led.</p>
 
-            <div className="mt-6 grid gap-6 md:grid-cols-2">
-              {PROJECTS.map((p) => (
-                <article key={p.title} className="p-6 bg-white/8 rounded-xl border border-white/10 backdrop-blur-sm">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">{p.title}</h3>
-                      <p className="text-sm mt-1 text-zinc-200">Role: {p.role}</p>
+              <div className="mt-6 grid gap-6 md:grid-cols-2">
+                {PROJECTS.map((p) => (
+                  <article key={p.title} className="bg-white/6 border border-white/10 rounded-2xl p-6">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{p.title}</h3>
+                        <p className="text-sm text-sky-200 mt-1"><strong>Role:</strong> {p.role}</p>
+                      </div>
+                      <div className="text-sky-200 text-sm">{/* small date/placeholder */}</div>
                     </div>
-                    <div className="text-sm text-zinc-200">{/* optional date */}</div>
-                  </div>
 
-                  <p className="mt-4 text-zinc-100">{p.summary}</p>
+                    <p className="mt-4 text-sky-100">{p.summary}</p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.tags.map((t) => (
-                      <span key={t} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-800/40 text-sm text-white">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="opacity-90"><circle cx="12" cy="12" r="10" stroke="white" strokeOpacity="0.2"></circle></svg>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {p.tags.map((t) => (
+                        <span key={t} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-700/40 text-xs text-white">
+                          <span className="w-2 h-2 rounded-full bg-sky-300/60" /> {t}
+                        </span>
+                      ))}
+                    </div>
 
-                  {p.link && (
-                    <a href={p.link} className="mt-4 inline-block text-sm font-medium text-sky-200 hover:text-white">View case study →</a>
-                  )}
-                </article>
-              ))}
+                    <div className="mt-4">
+                      <a href={p.link} className="text-sky-200 text-sm font-medium">View case study →</a>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
-        {/* Experience / Timeline - lightest blue */}
-        <div id="experience" className="max-w-6xl mx-auto px-6 mt-10">
-          <section className="rounded-2xl p-8 md:p-12 bg-gradient-to-b from-[#e7f4ff] to-[#dbeefc] shadow-sm">
+        {/* Work experience / timeline (lighter blue background) */}
+        <section id="work" className="pt-16 pb-16 bg-sky-50">
+          <div className="max-w-6xl mx-auto px-6">
             <h2 className="text-2xl font-bold">Work Experience</h2>
-            <p className="mt-2 text-zinc-700">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
+            <p className="text-zinc-600 mt-2">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
 
-            <div className="mt-8 relative">
+            <div className="mt-12 relative">
               {/* vertical center line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 top-8 bottom-8 w-px bg-sky-300"></div>
+              <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-px bg-zinc-200" aria-hidden />
 
-              <div className="space-y-12">
+              <div className="space-y-16">
                 {TIMELINE.map((item, idx) => {
-                  const left = idx % 2 === 0;
+                  const isLeft = idx % 2 === 1; // alternate: idx 0 -> right, 1 -> left etc (so newest on top appears right)
                   return (
-                    <div key={item.date} className="relative">
-                      <div className={`w-full md:flex ${left ? "md:flex-row-reverse" : "md:flex-row"} items-start md:items-center`}>
-                        <div className="md:w-1/2 md:px-6">
-                          <div className={`p-6 bg-white rounded-xl shadow-md max-w-xl ${left ? "md:ml-auto" : ""}`}>
-                            <div className="flex items-start justify-between">
-                              <div>
-                                <h3 className="font-semibold">{item.title}</h3>
-                                <div className="text-sm text-zinc-500 mt-1">{item.date}</div>
-                              </div>
-                            </div>
-
-                            <p className="mt-3 text-zinc-700">{item.details}</p>
-
-                            <div className="mt-4 flex flex-wrap gap-2">
-                              {/* pick some dynamic skill tags from text (simple heuristic) */}
-                              {item.title.toLowerCase().includes("product") && <span className="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-sm">Product Roadmap</span>}
-                              {item.title.toLowerCase().includes("analyst") && <span className="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-sm">Analytics</span>}
-                              {item.title.toLowerCase().includes("assistant") && <span className="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-sm">Automation</span>}
-                            </div>
-                          </div>
+                    <div key={item.title} className="relative">
+                      {/* year badge at center line */}
+                      <div className="absolute left-1/2 -translate-x-1/2 -top-3">
+                        <div className="bg-white rounded-full p-1.5 border-2 border-sky-200 shadow-sm">
+                          <div className="w-3 h-3 rounded-full bg-sky-500" />
                         </div>
-
-                        <div className="hidden md:block md:w-1/6 relative">
-                          {/* center point */}
-                          <div className="absolute left-1/2 transform -translate-x-1/2 top-8 w-4 h-4 rounded-full bg-white border-4 border-sky-400"></div>
-                        </div>
-
-                        <div className="md:w-1/2 md:px-6"></div>
                       </div>
 
-                      {/* small circle under each item for mobile spacing */}
-                      <div className="md:hidden mt-4 flex items-center justify-center">
-                        <div className="w-3 h-3 rounded-full bg-sky-400"></div>
+                      <div
+                        className={`md:w-1/2 md:absolute md:top-0 ${
+                          isLeft ? "md:left-0 md:pr-8" : "md:right-0 md:pl-8"
+                        }`}
+                      >
+                        <div className="bg-white rounded-2xl p-6 shadow">
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <h4 className="font-semibold text-lg">{item.title}</h4>
+                              <div className="text-sm text-zinc-500 mt-1">{item.company} — <span className="font-medium">{item.roleShort}</span></div>
+                            </div>
+                            <div className="text-sm text-zinc-400">{item.yearRange}</div>
+                          </div>
+
+                          <p className="mt-3 text-zinc-700">{item.desc}</p>
+
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {item.skills.map((s) => (
+                              <span key={s} className="inline-flex items-center px-3 py-1 rounded-full bg-sky-100 text-xs text-sky-800">{s}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* spacer for small screens */}
+                      <div className="md:hidden mt-6">
+                        {/* small-screen stacked card */}
+                        <div className="bg-white rounded-2xl p-6 shadow">
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <h4 className="font-semibold text-lg">{item.title}</h4>
+                              <div className="text-sm text-zinc-500 mt-1">{item.company} — <span className="font-medium">{item.roleShort}</span></div>
+                            </div>
+                            <div className="text-sm text-zinc-400">{item.yearRange}</div>
+                          </div>
+                          <p className="mt-3 text-zinc-700">{item.desc}</p>
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {item.skills.map((s) => (
+                              <span key={s} className="inline-flex items-center px-3 py-1 rounded-full bg-sky-100 text-xs text-sky-800">{s}</span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );
                 })}
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
-        {/* Skills + Education side-by-side */}
-        <div id="skills" className="max-w-6xl mx-auto px-6 mt-10">
-          <section className="rounded-2xl overflow-hidden grid md:grid-cols-2">
-            {/* Skills panel (lighter blue) */}
-            <div className="p-8 bg-gradient-to-b from-[#e6f7ff] to-[#d6efff] border-r">
+        {/* Skills + Education + Certs stacked (each full width) */}
+        <section id="skills" className="pt-16 pb-16 bg-gradient-to-b from-sky-50 to-white">
+          <div className="max-w-6xl mx-auto px-6">
+            {/* Skills block (full width) */}
+            <div className="rounded-2xl bg-white shadow-md p-8">
               <h2 className="text-2xl font-bold">Skills</h2>
-              <p className="mt-2 text-zinc-700">Tools, techniques and areas I use frequently.</p>
+              <p className="text-zinc-600 mt-2">Tools, techniques and areas I use frequently.</p>
 
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {SKILLS.map((s) => (
-                  <div key={s.id} className="flex items-center gap-3 p-3 rounded-lg bg-sky-50 hover:scale-105 transform transition-all duration-150 cursor-default">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-sm">{s.icon}</div>
-                    <div>
-                      <div className="text-sm font-medium text-zinc-800">{s.name}</div>
-                    </div>
+                  <div
+                    key={s.id}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-sky-50 hover:shadow-md transform hover:-translate-y-1 transition"
+                    title={s.name}
+                  >
+                    <div className="text-2xl">{s.icon}</div>
+                    <div className="text-sm font-medium">{s.name}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Education & Certifications panel (darker blue) */}
-            <div id="education" className="p-8 bg-gradient-to-b from-[#dbeeff] to-[#c9e6ff]">
-              <h2 className="text-2xl font-bold">Education</h2>
+            {/* Education & Certifications */}
+            <div id="education" className="mt-10 space-y-6">
+              <div className="rounded-2xl bg-white p-6 shadow-md">
+                <h2 className="text-2xl font-bold">Education</h2>
 
-              <div className="mt-4 space-y-4">
-                {EDUCATION.map((ed) => (
-                  <div key={ed.degree} className="p-4 bg-white rounded-lg shadow-sm">
-                    <div className="flex items-start justify-between">
+                <div className="mt-4 space-y-4">
+                  <div className="bg-sky-50 rounded-lg p-4">
+                    <div className="flex justify-between items-start">
                       <div>
-                        <div className="font-semibold">{ed.degree}</div>
-                        <div className="text-sm text-zinc-600">{ed.subject}</div>
+                        <div className="font-semibold">M.Tech — IIT Roorkee</div>
+                        <div className="text-sm text-zinc-500">Alternate Hydro Energy Systems</div>
                       </div>
-                      <div className="text-sm text-zinc-500">{ed.years}</div>
+                      <div className="text-sm text-zinc-400">2016–2018</div>
                     </div>
-
                     <ul className="mt-3 list-disc list-inside text-sm text-zinc-700">
-                      {ed.bullets.map((b,i) => <li key={i}>{b}</li>)}
+                      <li>Graduate coursework in data analysis, energy systems modelling</li>
+                      <li>Member of Placement Cell</li>
+                      <li>Dissertation: GIS Integrated Hydropower Assessment</li>
                     </ul>
                   </div>
-                ))}
-              </div>
 
-              <h3 className="mt-8 text-xl font-semibold">Certifications</h3>
-              <p className="text-sm text-zinc-700 mt-1">Click to view certificate (PDF).</p>
-
-              <div className="mt-4 grid grid-cols-1 gap-3">
-                {CERTIFICATIONS.map((c) => (
-                  <a key={c.name} href={c.file} target="_blank" rel="noreferrer" className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm hover:shadow-md">
-                    <div className="w-12 h-12 rounded-md bg-sky-50 flex items-center justify-center text-xl">📜</div>
-                    <div>
-                      <div className="font-medium">{c.name}</div>
-                      <div className="text-sm text-zinc-500">Issued: {c.issued}</div>
+                  <div className="bg-sky-50 rounded-lg p-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold">B.Tech — KIIT University, Bhubaneswar</div>
+                        <div className="text-sm text-zinc-500">Civil Engineering</div>
+                      </div>
+                      <div className="text-sm text-zinc-400">2010–2014</div>
                     </div>
-                    <div className="ml-auto text-sm text-sky-600">View Certificate →</div>
-                  </a>
-                ))}
+                    <ul className="mt-3 list-disc list-inside text-sm text-zinc-700">
+                      <li>Project: Hydrated Lime for Modification of Bituminous Binder</li>
+                      <li>Active Member: National Service Scheme (2014)</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
 
-              <h3 className="mt-8 text-xl font-semibold">Awards & Achievements</h3>
-              <div className="mt-4 space-y-3">
-                {ACHIEVEMENTS.map((a) => (
-                  <div key={a.title} className="p-3 bg-white rounded-lg shadow-sm">
-                    <div className="font-semibold">{a.title}</div>
-                    <div className="text-sm text-zinc-700 mt-1">{a.desc}</div>
-                  </div>
-                ))}
+              {/* Certifications & Achievements */}
+              <div className="rounded-2xl bg-white p-6 shadow-md">
+                <h2 className="text-2xl font-bold">Certifications</h2>
+                <p className="text-zinc-600 mt-2">Click to view certificate (PDF/image).</p>
+
+                <div className="mt-4 space-y-3">
+                  <a className="flex items-center justify-between p-4 rounded-lg bg-sky-50" href="/certs/CSM.pdf" target="_blank" rel="noreferrer">
+                    <div>
+                      <div className="font-semibold">Certified Scrum Master (CSM) — Scrum Alliance</div>
+                      <div className="text-sm text-zinc-500">Issued: 2020</div>
+                    </div>
+                    <div className="text-indigo-600">View Certificate →</div>
+                  </a>
+
+                  <a className="flex items-center justify-between p-4 rounded-lg bg-sky-50" href="/certs/POPM.jpeg" target="_blank" rel="noreferrer">
+                    <div>
+                      <div className="font-semibold">SAFe® Product Owner/Product Manager (POPM)</div>
+                      <div className="text-sm text-zinc-500">Issued: Jan 2024</div>
+                    </div>
+                    <div className="text-indigo-600">View Certificate →</div>
+                  </a>
+
+                  <a className="flex items-center justify-between p-4 rounded-lg bg-sky-50" href="/certs/Harvard_Leadership.jpeg" target="_blank" rel="noreferrer">
+                    <div>
+                      <div className="font-semibold">Harvard Leadership Edge</div>
+                      <div className="text-sm text-zinc-500">Issued: Oct 2023</div>
+                    </div>
+                    <div className="text-indigo-600">View Certificate →</div>
+                  </a>
+                </div>
+
+                <h3 className="mt-6 text-lg font-semibold">Awards & Achievements</h3>
+                <ul className="mt-3 list-disc list-inside text-sm text-zinc-700">
+                  <li>🏆 Best of the Best Award — ATCS (2019) — For delivering the Warranty Excellence Dashboard across markets.</li>
+                  <li>⭐ Star of the Month — ATCS (multiple) — For stakeholder coordination & releases.</li>
+                  <li>🌟 Sprint Leadership Recognition — American Express — For leading cross-functional API uplift delivery (96% feature completion).</li>
+                </ul>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
-        {/* Contact / Footer */}
-        <div id="contact" className="max-w-6xl mx-auto px-6 mt-10 pb-16">
-          <footer className="rounded-2xl p-8 bg-white/60 border">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        {/* CONTACT / FOOTER */}
+        <footer id="contact" className="pt-12 pb-16 bg-white">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="rounded-2xl bg-sky-50 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
-                <div className="font-semibold text-lg">Get in touch</div>
-                <div className="text-sm text-zinc-700 mt-2">{CONTACT.name} — {CONTACT.title}</div>
-                <div className="text-sm text-zinc-700 mt-1">{CONTACT.location} • <a href={`tel:${CONTACT.phone}`} className="underline">{CONTACT.phone}</a> • <a href={`mailto:${CONTACT.email}`} className="underline">{CONTACT.email}</a></div>
+                <h3 className="text-xl font-semibold">Get in touch</h3>
+                <p className="text-zinc-700 mt-2">{CONTACT.name} — {CONTACT.title}</p>
+                <p className="text-zinc-700 mt-1">{CONTACT.location} • <a className="underline" href={`tel:${CONTACT.phone}`}>{CONTACT.phone}</a> • <a className="underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
               </div>
 
-              <div className="flex gap-3">
-                <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="px-3 py-2 rounded border">LinkedIn</a>
-                <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="px-3 py-2 rounded border">Resume (PDF)</a>
+              <div className="flex items-center gap-4">
+                <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded-md">LinkedIn</a>
+                <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded-md">Resume (PDF)</a>
               </div>
             </div>
 
             <p className="mt-6 text-xs text-zinc-500">Built with ♥ — tailored for Product roles. © {new Date().getFullYear()} {CONTACT.name}</p>
-          </footer>
-        </div>
+          </div>
+        </footer>
       </main>
     </>
   );
