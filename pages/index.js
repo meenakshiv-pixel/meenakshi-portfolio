@@ -1,182 +1,187 @@
 // pages/index.js
-import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import Head from 'next/head'
+import React, { useEffect, useState } from 'react'
 
 const CONTACT = {
-  name: "Meenakshi Verma",
-  title: "Product Owner → Product Manager",
-  location: "Sydney, Australia",
-  phone: "+61 411021915",
-  email: "minakshi.kiit@gmail.com",
-  linkedin: "https://www.linkedin.com/in/mkva/",
-  resume: "/Meenakshi_Resume_UPDATED.pdf", // ensure this file is in /public
+  name: 'Meenakshi Verma',
+  title: 'Product Owner → Product Manager',
+  location: 'Sydney, Australia',
+  phone: '+61 411021915',
+  email: 'minakshi.kiit@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/mkva/',
+  resume: '/Meenakshi_Resume_UPDATED.pdf' // put final resume into /public
 };
 
-const PROJECTS = [
-  {
-    title: "AMP Charge Verification Journey",
-    role: "Product Owner",
-    summary:
-      "Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.",
-    tags: ["Fraud", "APIs", "IVR", "Product Strategy"],
-    link: "/projects/amp-charge-verification",
-  },
-  {
-    title: "Warranty Excellence Monitor",
-    role: "Business Analyst (ATCS)",
-    summary:
-      "Web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages. Included 6 core KPIs, drill-down charts and multilingual support.",
-    tags: ["Analytics", "Dashboard", "KPI Design", "Stakeholder Mgmt"],
-    link: "/projects/warranty-excellence",
-  },
-  {
-    title: "Digital Automation & UX Improvements — Ramboll",
-    role: "Assistant Product Specialist",
-    summary:
-      "Delivered automation and UX improvements that increased digital adoption and saved ~1200 person-hours annually.",
-    tags: ["Automation", "UX", "SQL", "A/B Testing"],
-    link: "/projects/ramboll-automation",
-  },
+// Full skill list with small emoji/svg icons (replace with brand svgs if you add them to public)
+const SKILLS = [
+  { id: 'product-roadmap', name: 'Product Roadmap', icon: '📈', color: 'bg-blue-50' },
+  { id: 'product-portfolio', name: 'Product Portfolio Management', icon: '🗂️', color: 'bg-blue-50' },
+  { id: 'agile', name: 'Agile & Scrum', icon: '⚡', color: 'bg-blue-50' },
+  { id: 'safe', name: 'SAFe', icon: '🧩', color: 'bg-blue-50' },
+  { id: 'jira', name: 'JIRA', icon: '🧭', color: 'bg-blue-50' },
+  { id: 'mysql', name: 'MySQL', icon: '🛢️', color: 'bg-blue-50' },
+  { id: 'sql', name: 'SQL (Basics)', icon: '💾', color: 'bg-blue-50' },
+  { id: 'data-analytics', name: 'Data & Analytics', icon: '📊', color: 'bg-blue-50' },
+  { id: 'ux', name: 'UX/UI Collaboration', icon: '🎨', color: 'bg-blue-50' },
+  { id: 'wireframing', name: 'Wireframing', icon: '🧱', color: 'bg-blue-50' },
+  { id: 'office', name: 'Microsoft Office Suite', icon: '📎', color: 'bg-blue-50' },
+  { id: 'prioritization', name: 'Prioritization', icon: '🎯', color: 'bg-blue-50' },
+  { id: 'api', name: 'API Product Management', icon: '🔗', color: 'bg-blue-50' },
+  { id: 'research', name: 'User Research', icon: '🔍', color: 'bg-blue-50' }
 ];
 
 const TIMELINE = [
   {
-    yearRange: "2025",
-    company: "Portfolio Builder",
-    title: "Aspiring Product Manager / Transitioning to Australia",
-    roleShort: "Portfolio Builder",
-    desc:
-      "Preparing for Product Manager roles in Australia — building public portfolio, case studies and strengthening product & data skills.",
-    skills: ["Product Strategy", "Portfolio Building", "MySQL"],
+    yearLabel: '2025',
+    company: 'Portfolio Builder',
+    role: 'Aspiring Product Manager / Transitioning to Australia',
+    period: '2025',
+    description: 'Preparing for Product Manager roles in Australia — building public portfolio, case studies and strengthening product & data skills.',
+    skills: ['Product Strategy', 'Portfolio Building', 'MySQL']
   },
   {
-    yearRange: "2022 — 2025",
-    company: "American Express",
-    title: "Sr. Associate Product Management / Product Owner",
-    roleShort: "Product Owner",
-    desc:
-      "Led Credit Authorization uplift; owned AMP (Charge Verification) work for IVR & fraud; managed roadmaps, API uplifts and cross-functional delivery across regions.",
-    skills: ["Product Roadmap", "APIs", "IVR", "Stakeholder Mgmt", "JIRA"],
+    yearLabel: '2022 – 2025',
+    company: 'American Express',
+    role: 'Sr. Associate Product Management / Product Owner',
+    period: '2022 – 2025',
+    description: 'Led Credit Authorization uplift; owned AMP (Charge Verification) for IVR & fraud, managed roadmaps, API uplifts and cross-functional delivery.',
+    skills: ['Product Roadmap', 'APIs', 'IVR', 'Fraud', 'Stakeholder Mgmt', 'JIRA']
   },
   {
-    yearRange: "2021",
-    company: "Ramboll",
-    title: "Assistant Product Specialist",
-    roleShort: "Assistant Product Specialist",
-    desc:
-      "Delivered automation and UX improvements that saved manual hours and increased adoption of digital tools.",
-    skills: ["Automation", "UX", "SQL"],
+    yearLabel: '2021',
+    company: 'Ramboll',
+    role: 'Assistant Product Specialist',
+    period: '2021',
+    description: 'Delivered automation & UX improvements that increased digital adoption and saved manual hours.',
+    skills: ['Automation', 'UX', 'SQL']
   },
   {
-    yearRange: "2018 — 2021",
-    company: "ATCS Inc",
-    title: "Business Analyst — Warranty Excellence Monitor",
-    roleShort: "Business Analyst",
-    desc:
-      "Built a web-based dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages; defined KPIs and improved reporting cadence.",
-    skills: ["Analytics", "KPI Design", "Stakeholder Mgmt"],
-  },
+    yearLabel: '2018 – 2021',
+    company: 'ATCS Inc',
+    role: 'Business Analyst — Warranty Excellence Monitor',
+    period: '2018 – 2021',
+    description: 'Built web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages; defined KPIs and improved reporting cadence.',
+    skills: ['Analytics', 'KPI Design', 'Stakeholder Mgmt', 'Dashboard']
+  }
 ];
 
-const SKILLS = [
-  { id: "product-roadmap", name: "Product Roadmap", icon: "📈" },
-  { id: "product-portfolio", name: "Product Portfolio Management", icon: "📁" },
-  { id: "mysql", name: "MySQL", icon: "🛢" },
-  { id: "jira", name: "JIRA", icon: "🧭" },
-  { id: "safe", name: "SAFe", icon: "🧩" },
-  { id: "agile", name: "Agile & Scrum", icon: "⚡️" },
-  { id: "ux", name: "UX/UI Collaboration", icon: "🎨" },
-  { id: "data-analytics", name: "Data & Analytics", icon: "📊" },
-  { id: "sql", name: "SQL (Basics)", icon: "🗄" },
-  { id: "wireframing", name: "Wireframing", icon: "🧱" },
-  { id: "ms-office", name: "Microsoft Office Suite", icon: "📎" },
-  { id: "prioritization", name: "Prioritization", icon: "🎯" },
-  { id: "api-product", name: "API Product Management", icon: "🔗" },
-  { id: "user-research", name: "User Research", icon: "🔎" },
+const PROJECTS = [
+  {
+    title: 'AMP Charge Verification Journey',
+    role: 'Product Owner',
+    summary: 'Uplifted 4 APIs to a new system of record and enabled fraud self-service via IVR, reducing manual reviews and improving customer experience.',
+    tags: ['Fraud', 'APIs', 'IVR', 'Product Strategy'],
+    link: '/projects/amp-charge-verification' // optional page if you create it
+  },
+  {
+    title: 'Warranty Excellence Monitor',
+    role: 'Business Analyst (ATCS)',
+    summary: 'Web dashboard for Mercedes-Benz warranty repairs across 29 markets & 13 languages with 6 core KPIs and drill-down charts.',
+    tags: ['Analytics', 'Dashboard', 'KPI Design', 'Stakeholder Mgmt'],
+    link: '/projects/warranty-excellence'
+  }
 ];
 
-function TopNav() {
-  // small nav that uses anchors (smooth scroll)
+function SkillTile({ s }) {
   return (
-    <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b">
-      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="font-semibold">Meenakshi Verma</div>
-          <div className="text-sm text-zinc-500 hidden md:block">— Product Owner → Product Manager</div>
-        </div>
-
-        <div className="flex items-center gap-4 text-sm">
-          {[
-            ["About", "#about"],
-            ["Projects", "#projects"],
-            ["Work Experience", "#work"],
-            ["Skills", "#skills"],
-            ["Education", "#education"],
-            ["Contact", "#contact"],
-          ].map(([label, href]) => (
-            <a key={href} href={href} className="px-3 py-1 rounded-md hover:bg-indigo-50">
-              {label}
-            </a>
-          ))}
-        </div>
-      </div>
-    </nav>
+    <div
+      role="button"
+      tabIndex={0}
+      className="flex items-center gap-3 p-4 rounded-lg shadow-sm transform transition hover:-translate-y-1 hover:shadow-md cursor-default select-none"
+      style={{ background: 'linear-gradient(180deg, rgba(235,249,255,0.8), rgba(225,241,251,0.85))' }}
+    >
+      <div className="w-10 h-10 rounded-md flex items-center justify-center text-xl">{s.icon}</div>
+      <div className="text-sm font-medium">{s.name}</div>
+    </div>
   );
 }
 
 export default function Portfolio() {
-  // optional fade for hero
-  const [ready, setReady] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => setReady(true), 80);
-    return () => clearTimeout(t);
+    // optional: highlight nav link on scroll
+    const onScroll = () => {
+      const sections = ['about', 'projects', 'experience', 'skills', 'education', 'contact'];
+      const offsets = sections.map(id => {
+        const el = document.getElementById(id);
+        return el ? { id, top: Math.abs(el.getBoundingClientRect().top) } : { id, top: Infinity };
+      });
+      const nearest = offsets.reduce((a, b) => (a.top < b.top ? a : b), offsets[0]);
+      document.querySelectorAll('[data-nav]').forEach(n => n.classList.remove('bg-indigo-600', 'text-white'));
+      const active = document.querySelector(`[data-nav="${nearest.id}"]`);
+      if (active) active.classList.add('bg-indigo-600', 'text-white');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
     <>
       <Head>
-        <title>Meenakshi Verma — Product Portfolio</title>
+        <title>{CONTACT.name} — Product Portfolio</title>
         <meta name="description" content="Portfolio of Meenakshi Verma — Product Owner & aspiring Product Manager." />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-        <style>{`html { scroll-behavior: smooth; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }`}</style>
+        <style>{`
+          html { scroll-behavior: smooth; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+        `}</style>
       </Head>
 
-      <TopNav />
+      <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-sm border-b">
+        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="font-semibold">{CONTACT.name}</div>
+            <div className="text-sm text-zinc-500 hidden md:block">— {CONTACT.title}</div>
+          </div>
 
-      <main className="min-h-screen bg-zinc-50 text-zinc-900">
-        <section id="about" className="pt-10 pb-16 bg-gradient-to-b from-sky-50 via-sky-50 to-white">
+          <div className="flex items-center gap-3">
+            {['about', 'projects', 'experience', 'skills', 'education', 'contact'].map(id => (
+              <a
+                key={id}
+                data-nav={id}
+                href={`#${id}`}
+                className="px-3 py-1 rounded text-sm text-zinc-700 hover:bg-indigo-600 hover:text-white transition"
+              >
+                {id === 'about' ? 'About' : id.charAt(0).toUpperCase() + id.slice(1)}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <main className="min-h-screen bg-white text-zinc-900">
+        <section id="about" className="pt-8 pb-12" style={{ background: 'linear-gradient(180deg,#eaf8ff 0%, #e6f7ff 100%)' }}>
           <div className="max-w-6xl mx-auto px-6">
-            <div className="rounded-2xl bg-white shadow-lg p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
-              {/* profile */}
+            <div className="rounded-2xl p-8 bg-white shadow-md flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+              {/* Profile */}
               <div className="flex-shrink-0">
                 <img
                   src="/profile.jpg"
-                  alt="Meenakshi Verma"
+                  alt={`${CONTACT.name} headshot`}
+                  className="w-36 h-36 object-cover rounded-full border-4 border-white shadow-lg"
                   onError={(e) => {
-                    // fallback to png or hide
-                    e.currentTarget.src = "/profile.png";
+                    // fallback to initials circle
+                    e.currentTarget.style.display = 'none';
+                    const el = document.getElementById('initials-fallback');
+                    if (el) el.style.display = 'flex';
                   }}
-                  className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-md"
                 />
+                <div id="initials-fallback" style={{ display: 'none' }} className="w-36 h-36 rounded-full bg-indigo-600 text-white flex items-center justify-center text-3xl font-extrabold shadow-lg">MV</div>
               </div>
 
               <div className="flex-1">
                 <h1 className="text-3xl md:text-4xl font-extrabold">{CONTACT.name}</h1>
-                <p className="mt-2 text-zinc-600">{CONTACT.title} • {CONTACT.location}</p>
+                <p className="mt-2 text-lg text-zinc-600">{CONTACT.title} • {CONTACT.location}</p>
 
-                <p className="mt-4 text-zinc-700 max-w-3xl">
-                  I build scalable products and frictionless customer experiences — product strategy, cross-functional leadership and data-driven delivery across global markets.
-                </p>
+                <p className="mt-4 text-zinc-700 max-w-3xl">I build scalable products and frictionless customer experiences — product strategy, cross-functional leadership and data-driven delivery across global markets.</p>
 
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg shadow">Download Resume</a>
-                  <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="inline-block px-4 py-2 border rounded-lg">LinkedIn</a>
-                  <a href={`mailto:${CONTACT.email}`} className="inline-block px-4 py-2 border rounded-lg">Email</a>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <a href={CONTACT.resume} className="px-4 py-2 rounded-lg bg-indigo-600 text-white shadow" target="_blank" rel="noopener noreferrer">Download Resume</a>
+                  <a href={CONTACT.linkedin} className="px-4 py-2 rounded-lg border" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                  <a href={`mailto:${CONTACT.email}`} className="px-4 py-2 rounded-lg border">Email</a>
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm text-zinc-600">
+                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-zinc-600">
                   <div>
                     <div className="text-xs">Years experience</div>
                     <div className="font-semibold">8+</div>
@@ -197,110 +202,91 @@ export default function Portfolio() {
               </div>
             </div>
           </div>
+
+          {/* angled divider */}
+          <div className="mt-8">
+            <svg viewBox="0 0 1440 64" className="w-full" preserveAspectRatio="none" style={{ display: 'block' }}>
+              <path d="M0,0 L1440,0 L1440,64 L0,0 Z" fill="#07263b" opacity="0.06" />
+            </svg>
+          </div>
         </section>
 
-        {/* Projects (dark blue shade) */}
-        <section id="projects" className="pt-16 pb-16 bg-gradient-to-b from-sky-900 to-sky-800 text-white">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="rounded-2xl p-8 md:p-12 bg-gradient-to-tr from-sky-900/90 to-sky-800/90 shadow-lg">
-              <h2 className="text-2xl font-bold text-white">Projects</h2>
-              <p className="text-sky-200 mt-2">Case studies and notable work I’ve led.</p>
+        {/* Projects - darker blue */}
+        <section id="projects" className="py-12" style={{ background: 'linear-gradient(180deg,#07263b 0%, #06283a 100%)' }}>
+          <div className="max-w-6xl mx-auto px-6 text-white">
+            <h2 className="text-3xl font-bold">Projects</h2>
+            <p className="mt-2 text-zinc-200">Case studies and notable work I’ve led.</p>
 
-              <div className="mt-6 grid gap-6 md:grid-cols-2">
-                {PROJECTS.map((p) => (
-                  <article key={p.title} className="bg-white/6 border border-white/10 rounded-2xl p-6">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="text-lg font-semibold text-white">{p.title}</h3>
-                        <p className="text-sm text-sky-200 mt-1"><strong>Role:</strong> {p.role}</p>
-                      </div>
-                      <div className="text-sky-200 text-sm">{/* small date/placeholder */}</div>
-                    </div>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              {PROJECTS.map(p => (
+                <div key={p.title} className="p-6 rounded-2xl bg-white/5 border border-white/10">
+                  <h3 className="text-xl font-semibold text-white">{p.title}</h3>
+                  <p className="mt-1 text-sm text-zinc-200"><strong>Role:</strong> {p.role}</p>
+                  <p className="mt-4 text-zinc-200">{p.summary}</p>
 
-                    <p className="mt-4 text-sky-100">{p.summary}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {p.tags.map(t => (
+                      <span key={t} className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-xs text-white/90">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {p.tags.map((t) => (
-                        <span key={t} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-700/40 text-xs text-white">
-                          <span className="w-2 h-2 rounded-full bg-sky-300/60" /> {t}
-                        </span>
-                      ))}
-                    </div>
-
+                  {p.link && (
                     <div className="mt-4">
-                      <a href={p.link} className="text-sky-200 text-sm font-medium">View case study →</a>
+                      <a href={p.link} className="text-sm text-sky-200 hover:underline" >View case study →</a>
                     </div>
-                  </article>
-                ))}
-              </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Work experience / timeline (lighter blue background) */}
-        <section id="work" className="pt-16 pb-16 bg-sky-50">
+        {/* Work Experience (timeline) - light blue */}
+        <section id="experience" className="py-12" style={{ background: 'linear-gradient(180deg,#eaf6fb 0%, #eef9fe 100%)' }}>
           <div className="max-w-6xl mx-auto px-6">
-            <h2 className="text-2xl font-bold">Work Experience</h2>
-            <p className="text-zinc-600 mt-2">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
+            <h2 className="text-3xl font-bold">Work Experience</h2>
+            <p className="mt-2 text-zinc-600">Most recent roles first (2025 → 2018). Click/tap cards on small screens to read quickly.</p>
 
-            <div className="mt-12 relative">
-              {/* vertical center line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-px bg-zinc-200" aria-hidden />
+            <div className="mt-10 relative">
+              {/* center vertical line */}
+              <div className="absolute inset-x-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-zinc-300/50" />
 
-              <div className="space-y-16">
-                {TIMELINE.map((item, idx) => {
-                  const isLeft = idx % 2 === 1; // alternate: idx 0 -> right, 1 -> left etc (so newest on top appears right)
+              <div className="space-y-14">
+                {TIMELINE.map((item, i) => {
+                  const left = i % 2 === 0;
                   return (
-                    <div key={item.title} className="relative">
-                      {/* year badge at center line */}
-                      <div className="absolute left-1/2 -translate-x-1/2 -top-3">
-                        <div className="bg-white rounded-full p-1.5 border-2 border-sky-200 shadow-sm">
-                          <div className="w-3 h-3 rounded-full bg-sky-500" />
-                        </div>
-                      </div>
-
-                      <div
-                        className={`md:w-1/2 md:absolute md:top-0 ${
-                          isLeft ? "md:left-0 md:pr-8" : "md:right-0 md:pl-8"
-                        }`}
-                      >
-                        <div className="bg-white rounded-2xl p-6 shadow">
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <h4 className="font-semibold text-lg">{item.title}</h4>
-                              <div className="text-sm text-zinc-500 mt-1">{item.company} — <span className="font-medium">{item.roleShort}</span></div>
+                    <div key={item.company} className="relative flex flex-col md:flex-row items-start md:items-stretch">
+                      {/* card container */}
+                      <div className={`md:w-1/2 ${left ? 'md:pr-8 md:pl-0 md:text-right' : 'md:pl-8 md:pr-0'}`}>
+                        <div className={`${left ? 'md:ml-auto md:text-left' : ''} md:max-w-lg`}>
+                          <div className="bg-white rounded-2xl p-6 shadow">
+                            <div className="flex items-start justify-between gap-4">
+                              <div>
+                                <h3 className="text-lg font-semibold">{item.role}</h3>
+                                <div className="text-sm text-zinc-500">{item.company}</div>
+                              </div>
+                              <div className="text-sm text-zinc-400">{item.period}</div>
                             </div>
-                            <div className="text-sm text-zinc-400">{item.yearRange}</div>
-                          </div>
 
-                          <p className="mt-3 text-zinc-700">{item.desc}</p>
+                            <p className="mt-3 text-zinc-700">{item.description}</p>
 
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            {item.skills.map((s) => (
-                              <span key={s} className="inline-flex items-center px-3 py-1 rounded-full bg-sky-100 text-xs text-sky-800">{s}</span>
-                            ))}
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              {item.skills.map(s => <span key={s} className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-sky-50 text-sky-700">{s}</span>)}
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      {/* spacer for small screens */}
-                      <div className="md:hidden mt-6">
-                        {/* small-screen stacked card */}
-                        <div className="bg-white rounded-2xl p-6 shadow">
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <h4 className="font-semibold text-lg">{item.title}</h4>
-                              <div className="text-sm text-zinc-500 mt-1">{item.company} — <span className="font-medium">{item.roleShort}</span></div>
-                            </div>
-                            <div className="text-sm text-zinc-400">{item.yearRange}</div>
-                          </div>
-                          <p className="mt-3 text-zinc-700">{item.desc}</p>
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            {item.skills.map((s) => (
-                              <span key={s} className="inline-flex items-center px-3 py-1 rounded-full bg-sky-100 text-xs text-sky-800">{s}</span>
-                            ))}
-                          </div>
-                        </div>
+                      {/* timeline dot (center) */}
+                      <div className="md:w-0 flex justify-center md:contents">
+                        <div className="w-4 h-4 rounded-full bg-white border-2 border-sky-400 -mt-2 md:mt-6"></div>
+                      </div>
+
+                      {/* opposite side empty on desktop when left aligned */}
+                      <div className={`md:w-1/2 ${left ? 'md:pl-8' : 'md:pr-8'}`}>
+                        {/* keep space symmetrical; on mobile stack cards */}
                       </div>
                     </div>
                   );
@@ -310,126 +296,116 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* Skills + Education + Certs stacked (each full width) */}
-        <section id="skills" className="pt-16 pb-16 bg-gradient-to-b from-sky-50 to-white">
-          <div className="max-w-6xl mx-auto px-6">
-            {/* Skills block (full width) */}
-            <div className="rounded-2xl bg-white shadow-md p-8">
+        {/* Skills & Education stack vertically on small screens; side-by-side on larger screens */}
+        <section id="skills" className="py-12" style={{ background: 'linear-gradient(180deg,#edf9ff 0%, #e6f7ff 100%)' }}>
+          <div className="max-w-6xl mx-auto px-6 grid gap-10 grid-cols-1 lg:grid-cols-2">
+            {/* Skills column */}
+            <div>
               <h2 className="text-2xl font-bold">Skills</h2>
-              <p className="text-zinc-600 mt-2">Tools, techniques and areas I use frequently.</p>
+              <p className="mt-2 text-zinc-600">Tools, techniques and areas I use frequently.</p>
 
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {SKILLS.map((s) => (
-                  <div
-                    key={s.id}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-sky-50 hover:shadow-md transform hover:-translate-y-1 transition"
-                    title={s.name}
-                  >
-                    <div className="text-2xl">{s.icon}</div>
-                    <div className="text-sm font-medium">{s.name}</div>
-                  </div>
-                ))}
+              <div className="mt-6 grid gap-4 grid-cols-2 sm:grid-cols-3">
+                {SKILLS.map(s => <SkillTile key={s.id} s={s} />)}
               </div>
             </div>
 
-            {/* Education & Certifications */}
-            <div id="education" className="mt-10 space-y-6">
-              <div className="rounded-2xl bg-white p-6 shadow-md">
-                <h2 className="text-2xl font-bold">Education</h2>
+            {/* Education & Certifications column */}
+            <div id="education" className="space-y-6">
+              <h2 className="text-2xl font-bold">Education</h2>
 
-                <div className="mt-4 space-y-4">
-                  <div className="bg-sky-50 rounded-lg p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-semibold">M.Tech — IIT Roorkee</div>
-                        <div className="text-sm text-zinc-500">Alternate Hydro Energy Systems</div>
-                      </div>
-                      <div className="text-sm text-zinc-400">2016–2018</div>
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 shadow">
+                  <div className="flex justify-between">
+                    <div>
+                      <div className="font-semibold">M.Tech — IIT Roorkee</div>
+                      <div className="text-sm text-zinc-600">Alternate Hydro Energy Systems</div>
+                      <ul className="mt-2 text-sm text-zinc-700 list-disc list-inside">
+                        <li>Graduate coursework in data analysis, energy systems modeling</li>
+                        <li>Member of Placement Cell</li>
+                        <li>Dissertation: GIS Integrated Hydropower Assessment</li>
+                      </ul>
                     </div>
-                    <ul className="mt-3 list-disc list-inside text-sm text-zinc-700">
-                      <li>Graduate coursework in data analysis, energy systems modelling</li>
-                      <li>Member of Placement Cell</li>
-                      <li>Dissertation: GIS Integrated Hydropower Assessment</li>
-                    </ul>
+                    <div className="text-sm text-zinc-400">2016–2018</div>
                   </div>
+                </div>
 
-                  <div className="bg-sky-50 rounded-lg p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-semibold">B.Tech — KIIT University, Bhubaneswar</div>
-                        <div className="text-sm text-zinc-500">Civil Engineering</div>
-                      </div>
-                      <div className="text-sm text-zinc-400">2010–2014</div>
+                <div className="bg-white rounded-lg p-4 shadow">
+                  <div className="flex justify-between">
+                    <div>
+                      <div className="font-semibold">B.Tech — KIIT University, Bhubaneswar</div>
+                      <div className="text-sm text-zinc-600">Civil Engineering</div>
+                      <ul className="mt-2 text-sm text-zinc-700 list-disc list-inside">
+                        <li>Project: Hydrated Lime for Modification of Bituminous Binder</li>
+                        <li>Active Member: National Service Scheme (2014)</li>
+                      </ul>
                     </div>
-                    <ul className="mt-3 list-disc list-inside text-sm text-zinc-700">
-                      <li>Project: Hydrated Lime for Modification of Bituminous Binder</li>
-                      <li>Active Member: National Service Scheme (2014)</li>
-                    </ul>
+                    <div className="text-sm text-zinc-400">2010–2014</div>
                   </div>
                 </div>
               </div>
 
-              {/* Certifications & Achievements */}
-              <div className="rounded-2xl bg-white p-6 shadow-md">
-                <h2 className="text-2xl font-bold">Certifications</h2>
-                <p className="text-zinc-600 mt-2">Click to view certificate (PDF/image).</p>
-
-                <div className="mt-4 space-y-3">
-                  <a className="flex items-center justify-between p-4 rounded-lg bg-sky-50" href="/certs/CSM.pdf" target="_blank" rel="noreferrer">
-                    <div>
-                      <div className="font-semibold">Certified Scrum Master (CSM) — Scrum Alliance</div>
-                      <div className="text-sm text-zinc-500">Issued: 2020</div>
-                    </div>
-                    <div className="text-indigo-600">View Certificate →</div>
-                  </a>
-
-                  <a className="flex items-center justify-between p-4 rounded-lg bg-sky-50" href="/certs/POPM.jpeg" target="_blank" rel="noreferrer">
-                    <div>
-                      <div className="font-semibold">SAFe® Product Owner/Product Manager (POPM)</div>
-                      <div className="text-sm text-zinc-500">Issued: Jan 2024</div>
-                    </div>
-                    <div className="text-indigo-600">View Certificate →</div>
-                  </a>
-
-                  <a className="flex items-center justify-between p-4 rounded-lg bg-sky-50" href="/certs/Harvard_Leadership.jpeg" target="_blank" rel="noreferrer">
-                    <div>
-                      <div className="font-semibold">Harvard Leadership Edge</div>
-                      <div className="text-sm text-zinc-500">Issued: Oct 2023</div>
-                    </div>
-                    <div className="text-indigo-600">View Certificate →</div>
-                  </a>
+              <h3 className="text-lg font-semibold">Certifications</h3>
+              <div className="space-y-3">
+                <div className="bg-white rounded-lg p-4 shadow flex items-center justify-between">
+                  <div>
+                    <div className="font-semibold">Certified Scrum Master (CSM) — Scrum Alliance</div>
+                    <div className="text-sm text-zinc-600">Issued: 2020</div>
+                  </div>
+                  <div>
+                    <a href="/certs/CSM.pdf" className="text-sky-600 hover:underline" target="_blank" rel="noopener noreferrer">View Certificate →</a>
+                  </div>
                 </div>
 
-                <h3 className="mt-6 text-lg font-semibold">Awards & Achievements</h3>
-                <ul className="mt-3 list-disc list-inside text-sm text-zinc-700">
-                  <li>🏆 Best of the Best Award — ATCS (2019) — For delivering the Warranty Excellence Dashboard across markets.</li>
-                  <li>⭐ Star of the Month — ATCS (multiple) — For stakeholder coordination & releases.</li>
-                  <li>🌟 Sprint Leadership Recognition — American Express — For leading cross-functional API uplift delivery (96% feature completion).</li>
-                </ul>
+                <div className="bg-white rounded-lg p-4 shadow flex items-center justify-between">
+                  <div>
+                    <div className="font-semibold">SAFe® Product Owner/Product Manager (POPM)</div>
+                    <div className="text-sm text-zinc-600">Issued: Jan 2024</div>
+                  </div>
+                  <div>
+                    <a href="/certs/POPM.jpeg" className="text-sky-600 hover:underline" target="_blank" rel="noopener noreferrer">View Certificate →</a>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-4 shadow flex items-center justify-between">
+                  <div>
+                    <div className="font-semibold">Harvard Leadership Edge</div>
+                    <div className="text-sm text-zinc-600">Issued: Oct 2023</div>
+                  </div>
+                  <div>
+                    <a href="/certs/Harvard_Leadership.jpeg" className="text-sky-600 hover:underline" target="_blank" rel="noopener noreferrer">View Certificate →</a>
+                  </div>
+                </div>
               </div>
+
+              <h3 className="text-lg font-semibold mt-6">Awards & Achievements</h3>
+              <ul className="list-disc list-inside text-zinc-700">
+                <li><strong>Best of the Best Award</strong> — ATCS (2019): Recognized for Warranty Excellence Dashboard (29 markets, 13 languages).</li>
+                <li><strong>Star of the Month</strong> — ATCS (multiple times): For stakeholder coordination & releases.</li>
+                <li><strong>Sprint Leadership Recognition</strong> — American Express: For leading cross-functional API uplift delivery.</li>
+              </ul>
             </div>
           </div>
         </section>
 
-        {/* CONTACT / FOOTER */}
-        <footer id="contact" className="pt-12 pb-16 bg-white">
+        {/* Contact / Footer */}
+        <section id="contact" className="py-8">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="rounded-2xl bg-sky-50 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="bg-white rounded-2xl p-6 shadow flex flex-col md:flex-row items-center justify-between">
               <div>
-                <h3 className="text-xl font-semibold">Get in touch</h3>
-                <p className="text-zinc-700 mt-2">{CONTACT.name} — {CONTACT.title}</p>
-                <p className="text-zinc-700 mt-1">{CONTACT.location} • <a className="underline" href={`tel:${CONTACT.phone}`}>{CONTACT.phone}</a> • <a className="underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+                <h3 className="text-lg font-semibold">Get in touch</h3>
+                <p className="text-sm text-zinc-600 mt-1">{CONTACT.name} — {CONTACT.title}</p>
+                <p className="text-sm text-zinc-600 mt-1">{CONTACT.location} • <a href={`tel:${CONTACT.phone}`} className="underline">{CONTACT.phone}</a> • <a href={`mailto:${CONTACT.email}`} className="underline">{CONTACT.email}</a></p>
               </div>
 
-              <div className="flex items-center gap-4">
-                <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded-md">LinkedIn</a>
-                <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded-md">Resume (PDF)</a>
+              <div className="mt-4 md:mt-0 flex gap-3">
+                <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border rounded">LinkedIn</a>
+                <a href={CONTACT.resume} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border rounded">Resume (PDF)</a>
               </div>
             </div>
 
-            <p className="mt-6 text-xs text-zinc-500">Built with ♥ — tailored for Product roles. © {new Date().getFullYear()} {CONTACT.name}</p>
+            <p className="mt-6 text-sm text-zinc-500">Built with ♥ — tailored for Product roles. © {new Date().getFullYear()} {CONTACT.name}</p>
           </div>
-        </footer>
+        </section>
       </main>
     </>
   );
