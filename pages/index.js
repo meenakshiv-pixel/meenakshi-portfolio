@@ -88,8 +88,9 @@ const EDUCATION = [
 
 const CERTIFICATIONS = [
   { name: "Certified Scrum Master (CSM) — Scrum Alliance", issued: "2020", file: "/certs/CSM.pdf" },
-  { name: "SAFe® Product Owner/Product Manager (POPM)", issued: "Jan 2024", file: "/certs/POPM.pdf" },
-  { name: "Harvard Leadership Edge", issued: "Oct 2023", file: "/certs/Harvard_Leadership.pdf" }
+ { name: "SAFe® Product Owner/Product Manager (POPM)", issued: "Jan 2024", file: "/certs/POPM.jpeg" },
+
+{ name: "Harvard Leadership Edge", issued: "Oct 2023", file: "/certs/Harvard_Leadership.jpeg" },
 ];
 
 const ACHIEVEMENTS = [
