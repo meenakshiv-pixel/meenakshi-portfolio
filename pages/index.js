@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 
 const CONTACT = {
   name: "Meenakshi Verma",
-  title: "Product Owner → Product Manager",
-  location: "Sydney, Australia",
+  title: "Product Owner/Product Manager",
   phone: "+61 411021915",
   email: "minakshi.kiit@gmail.com",
   linkedin: "https://www.linkedin.com/in/mkva/",
@@ -43,18 +42,10 @@ const PROJECTS = [
 ];
 
 const TIMELINE = [
-  {
-    id: "t2025",
-    year: 2025,
-    title: "Aspiring Product Manager / Transitioning to Australia",
-    org: "Portfolio Builder",
-    blurb:
-      "Preparing for Product Manager roles in Australia — building public portfolio and case studies; strengthening product & data skills.",
-    skills: ["Product Strategy", "Portfolio Building", "MySQL"],
-  },
+  
   {
     id: "t2022",
-    year: "2022–2025",
+    year: "2022–2026",
     title: "Sr. Associate Product Management / Product Owner",
     org: "American Express",
     blurb:
@@ -183,7 +174,7 @@ export default function Index() {
 
                 <div className="flex-1">
                   <h1 className="text-3xl md:text-4xl font-extrabold">{CONTACT.name}</h1>
-                  <p className="mt-1 text-zinc-600">{CONTACT.title} • {CONTACT.location}</p>
+                  <p className="mt-1 text-zinc-600">{CONTACT.title} </p>
 
                   <p className="mt-4 max-w-3xl text-zinc-700">
                     I build scalable products and frictionless customer experiences — product strategy,
@@ -200,7 +191,7 @@ export default function Index() {
                     <div><div className="text-xs">Years experience</div><div className="font-semibold">8+</div></div>
                     <div><div className="text-xs">Focus</div><div className="font-semibold">Product Strategy</div></div>
                     <div><div className="text-xs">Strength</div><div className="font-semibold">Execution & Delivery</div></div>
-                    <div><div className="text-xs">Tools</div><div className="font-semibold">JIRA, Visio, Tableau</div></div>
+                    <div><div className="text-xs">Tools</div><div className="font-semibold">Rally, Visio, Tableau</div></div>
                   </div>
                 </div>
               </div>
@@ -246,7 +237,7 @@ export default function Index() {
           {/* WORK EXPERIENCE / TIMELINE (center line, alternate cards) */}
           <section id="experience" className="mt-12">
             <h2 className="text-2xl font-bold">Work Experience</h2>
-            <p className="mt-1 text-zinc-600">Most recent roles first (2025 → 2018). Click cards on small screens to read quickly.</p>
+            <p className="mt-1 text-zinc-600">Most recent roles first (2026 → 2018). Click cards on small screens to read quickly.</p>
 
             <div className="relative mt-10">
               {/* vertical center line, behind content */}
@@ -425,7 +416,7 @@ export default function Index() {
               <h3 className="text-lg font-semibold">Get in touch</h3>
               <p className="mt-2 text-sm text-zinc-700">{CONTACT.name} — {CONTACT.title}</p>
               <p className="mt-1 text-sm text-zinc-700">
-                {CONTACT.location} • <a href={`tel:${CONTACT.phone}`} className="underline">{CONTACT.phone}</a> •{" "}
+                <a href={`tel:${CONTACT.phone}`} className="underline">{CONTACT.phone}</a> •{" "}
                 <a href={`mailto:${CONTACT.email}`} className="underline">{CONTACT.email}</a>
               </p>
 
