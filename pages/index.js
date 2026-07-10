@@ -31,13 +31,13 @@ const PROJECTS = [
     caseStudy: "/projects/warranty-excellence",
   },
   {
-    id: "ramboll",
-    title: "Digital Automation & UX Improvements — Ramboll",
-    role: "Assistant Product Specialist",
+    id: "brannkoncept",
+    title: "Digital Brannkoncept — Fire Safety Assessment",
+    role: "Assistant Product Specialist (Ramboll)",
     summary:
-      "Delivered automation and UX improvements that increased adoption of digital tools and saved significant manual effort.",
-    tags: ["Automation", "UX", "SQL"],
-    caseStudy: null,
+      "A digital tool that captures a building's design characteristics — floors, walls, stairways, extinguisher coverage — and converts them into a fire hazard score. Rolled out across Norway, Sweden and the US.",
+    tags: ["Product Development", "Digitalization", "Fire Safety", "Multi-market"],
+    caseStudy: "/projects/digital-brannkoncept",
   },
 ];
 
